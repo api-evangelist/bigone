@@ -1,0 +1,6 @@
+generated: '2026-10-13'
+method: generated
+source: openapi/bigone-spot-openapi.yml, openapi/bigone-wallet-openapi.yml
+skills:
+- {name: bigone-place-spot-order, file: bigone-place-spot-order.md}
+- {name: bigone-withdraw-asset, file: bigone-withdraw-asset.md}

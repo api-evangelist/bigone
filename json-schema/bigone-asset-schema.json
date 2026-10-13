@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-asset-schema.json",
+  "title": "Asset",
+  "description": "An asset with public metadata and available network settings.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-wallet-openapi.yml#/components/schemas/Asset",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "description": "The unique asset identifier."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "The asset symbol."
+    },
+    "name": {
+      "type": "string",
+      "description": "The asset display name."
+    },
+    "scale": {
+      "type": "integer",
+      "description": "The maximum decimal precision supported for the asset."
+    },
+    "is_fiat": {
+      "type": "boolean",
+      "description": "Whether the asset is a fiat currency."
+    },
+    "is_transfer_enabled": {
+      "type": "boolean",
+      "description": "Whether internal transfers are enabled for the asset in any supported account type."
+    },
+    "transfer_scale": {
+      "type": "integer",
+      "description": "The decimal precision supported for internal transfers."
+    },
+    "binding_gateways": {
+      "type": "array",
+      "description": "Public network configurations available for the asset.",
+      "items": {
+        "$ref": "#/$defs/BindingGateway"
+      }
+    }
+  },
+  "$defs": {
+    "BindingGateway": {
+      "type": "object",
+      "description": "A public deposit or withdrawal network configuration.",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "description": "The unique network binding identifier."
+        },
+        "is_deposit_enabled": {
+          "type": "boolean",
+          "description": "Whether deposits are enabled on this network."
+        },
+        "gateway_name": {
+          "type": "string",
+          "description": "The network or gateway name."
+        },
+        "min_withdrawal_amount": {
+          "type": "string",
+          "description": "The minimum withdrawal amount on this network."
+        },
+        "withdrawal_fee": {
+          "type": "string",
+          "description": "The withdrawal fee charged on this network."
+        },
+        "is_withdrawal_enabled": {
+          "type": "boolean",
+          "description": "Whether withdrawals are enabled on this network."
+        },
+        "min_deposit_amount": {
+          "type": "string",
+          "description": "The minimum deposit amount on this network."
+        },
+        "is_memo_required": {
+          "type": "boolean",
+          "description": "Whether a memo, tag, or similar secondary address field is required for deposits on this network."
+        },
+        "withdrawal_scale": {
+          "type": "integer",
+          "description": "The maximum decimal precision supported for withdrawals on this network."
+        },
+        "scale": {
+          "type": "integer",
+          "description": "The maximum decimal precision supported for the asset on this network."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+generated: '2026-10-13'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 7
+  own: 3
+  other_domain: 1
+  platform: 3
+  roles:
+  - api
+  - other
+  - portal
+  - source
+  - support
+  - website
+hosts:
+- host: api.big.one
+  found_by:
+  - apis[]
+  - contract-discovery
+  types: []
+  serves:
+  - api
+  registrable_domain: big.one
+  role: api
+  relation: own
+- host: big.one
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Pricing
+  - Website
+  serves: []
+  registrable_domain: big.one
+  role: website
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  - SourceCode
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: open.big.one
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - DeveloperPortal
+  - Documentation
+  - GettingStarted
+  - Authentication
+  - RateLimits
+  - ErrorCodes
+  serves:
+  - docs
+  - cdn
+  vendor: akamai
+  registrable_domain: big.one
+  role: portal
+  relation: own
+- host: t.me
+  found_by:
+  - pointer
+  types:
+  - Support
+  serves: []
+  registrable_domain: t.me
+  role: support
+  relation: other-domain
+- host: www.youtube.com
+  found_by:
+  - pointer
+  types:
+  - YouTube
+  serves: []
+  registrable_domain: youtube.com
+  role: other
+  relation: platform
+- host: x.com
+  found_by:
+  - pointer
+  types:
+  - X
+  serves: []
+  registrable_domain: x.com
+  role: other
+  relation: platform

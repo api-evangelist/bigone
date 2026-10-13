@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-user-trade-schema.json",
+  "title": "UserTrade",
+  "description": "A trade execution record from the user's perspective.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/UserTrade",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique trade ID."
+    },
+    "asset_pair_name": {
+      "type": "string",
+      "description": "The asset pair name."
+    },
+    "price": {
+      "type": "string",
+      "description": "The execution price."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The traded amount (base asset quantity)."
+    },
+    "taker_side": {
+      "type": "string",
+      "description": "The side of the taker (the order that matched). ASK = taker sold, BID = taker bought.",
+      "enum": [
+        "ASK",
+        "BID"
+      ]
+    },
+    "side": {
+      "type": "string",
+      "description": "The side from the maker's perspective. SELF_TRADING indicates both sides of the trade were from the same user.",
+      "enum": [
+        "ASK",
+        "BID",
+        "SELF_TRADING"
+      ]
+    },
+    "maker_order_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "int64",
+      "description": "The order ID of the maker (the liquidity provider). Null if the maker order was not found."
+    },
+    "taker_order_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "int64",
+      "description": "The order ID of the taker (the liquidity taker)."
+    },
+    "maker_fee": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The fee paid by the maker (negative values indicate rebates). Null if the user was the taker."
+    },
+    "taker_fee": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The fee paid by the taker. Null if the user was the maker."
+    },
+    "inserted_at": {
+      "type": "string",
+      "description": "The timestamp when the trade was recorded (RFC3339 with millisecond precision)."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Alias for inserted_at (same value)."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-convert-range-schema.json",
+  "title": "ConvertRange",
+  "description": "The minimum and maximum amounts allowed for a conversion pair.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-convert-openapi.yml#/components/schemas/ConvertRange",
+  "type": "object",
+  "properties": {
+    "from_asset_max_amount": {
+      "type": "string",
+      "description": "The maximum amount that can be converted from."
+    },
+    "from_asset_min_amount": {
+      "type": "string",
+      "description": "The minimum amount that can be converted from."
+    },
+    "to_asset_max_amount": {
+      "type": "string",
+      "description": "The maximum amount that can be received (converted to)."
+    },
+    "to_asset_min_amount": {
+      "type": "string",
+      "description": "The minimum amount that will be received (converted to)."
+    }
+  }
+}

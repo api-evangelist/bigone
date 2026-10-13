@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-create-transfer-body-schema.json",
+  "title": "CreateTransferBody",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-wallet-openapi.yml#/components/schemas/CreateTransferBody",
+  "type": "object",
+  "required": [
+    "symbol",
+    "amount",
+    "guid",
+    "from",
+    "to"
+  ],
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "The asset symbol (e.g., 'BTC', 'USDT')."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The amount to transfer."
+    },
+    "guid": {
+      "type": "string",
+      "description": "A unique identifier for the transfer request, limited to 36 characters."
+    },
+    "from": {
+      "type": "string",
+      "description": "The source account type.",
+      "enum": [
+        "SPOT",
+        "FUND",
+        "CONTRACT"
+      ]
+    },
+    "to": {
+      "type": "string",
+      "description": "The destination account type.",
+      "enum": [
+        "SPOT",
+        "FUND",
+        "CONTRACT"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "The transfer type.",
+      "enum": [
+        "NORMAL",
+        "MASTER_TO_SUB",
+        "SUB_TO_MASTER",
+        "SUB_INTERNAL"
+      ],
+      "default": "NORMAL"
+    },
+    "sub_account": {
+      "type": "string",
+      "description": "The sub-account ID, required if type is not NORMAL."
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-order-schema.json",
+  "title": "Order",
+  "description": "Order details including status, execution, and conditional order settings.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/Order",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique order ID assigned by BigONE."
+    },
+    "asset_pair_name": {
+      "type": "string",
+      "description": "The asset pair name."
+    },
+    "price": {
+      "type": "string",
+      "description": "The order price."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The original order amount (base asset quantity)."
+    },
+    "filled_amount": {
+      "type": "string",
+      "description": "The amount that has been filled."
+    },
+    "avg_deal_price": {
+      "type": "string",
+      "description": "The average fill price of executed portions."
+    },
+    "side": {
+      "type": "string",
+      "description": "The order side. ASK = sell, BID = buy.",
+      "enum": [
+        "ASK",
+        "BID"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "description": "The current order state.",
+      "enum": [
+        "FILLED",
+        "PENDING",
+        "CANCELLED",
+        "FIRED",
+        "REJECTED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was created (ISO 8601)."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was last updated (ISO 8601)."
+    },
+    "type": {
+      "type": "string",
+      "description": "The order type.",
+      "enum": [
+        "LIMIT",
+        "MARKET",
+        "STOP_LIMIT",
+        "STOP_MARKET"
+      ]
+    },
+    "stop_price": {
+      "type": "string",
+      "description": "The trigger price for stop orders."
+    },
+    "operator": {
+      "type": "string",
+      "description": "The trigger condition for stop orders. GTE = triggered when price >= stop_price, LTE = triggered when price <= stop_price.",
+      "enum": [
+        "GTE",
+        "LTE"
+      ]
+    },
+    "immediate_or_cancel": {
+      "type": "boolean",
+      "description": "Whether this is an Immediate-or-Cancel order."
+    },
+    "post_only": {
+      "type": "boolean",
+      "description": "Whether this is a post-only order."
+    },
+    "client_order_id": {
+      "type": "string",
+      "description": "The user-specified client order ID."
+    }
+  }
+}

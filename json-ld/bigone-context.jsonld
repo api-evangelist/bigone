@@ -1,0 +1,701 @@
+{
+  "@context": {
+    "@vocab": "https://big.one/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "bigone": "https://big.one/schema#",
+    "Error": "bigone:Error",
+    "anomaly": {
+      "@id": "bigone:anomaly",
+      "@type": "xsd:string"
+    },
+    "Instrument": "bigone:Instrument",
+    "usdtPrice": {
+      "@id": "bigone:usdtPrice",
+      "@type": "xsd:decimal"
+    },
+    "symbol": {
+      "@id": "bigone:symbol",
+      "@type": "xsd:string"
+    },
+    "btcPrice": {
+      "@id": "bigone:btcPrice",
+      "@type": "xsd:decimal"
+    },
+    "ethPrice": {
+      "@id": "bigone:ethPrice",
+      "@type": "xsd:decimal"
+    },
+    "nextFundingRate": {
+      "@id": "bigone:nextFundingRate",
+      "@type": "xsd:decimal"
+    },
+    "fundingRate": {
+      "@id": "bigone:fundingRate",
+      "@type": "xsd:decimal"
+    },
+    "latestPrice": {
+      "@id": "bigone:latestPrice",
+      "@type": "xsd:decimal"
+    },
+    "last24hPriceChange": {
+      "@id": "bigone:last24hPriceChange",
+      "@type": "xsd:decimal"
+    },
+    "indexPrice": {
+      "@id": "bigone:indexPrice",
+      "@type": "xsd:decimal"
+    },
+    "volume24h": {
+      "@id": "bigone:volume24h",
+      "@type": "xsd:decimal"
+    },
+    "turnover24h": {
+      "@id": "bigone:turnover24h",
+      "@type": "xsd:decimal"
+    },
+    "nextFundingTime": {
+      "@id": "bigone:nextFundingTime",
+      "@type": "xsd:integer"
+    },
+    "markPrice": {
+      "@id": "bigone:markPrice",
+      "@type": "xsd:decimal"
+    },
+    "last24hMaxPrice": {
+      "@id": "bigone:last24hMaxPrice",
+      "@type": "xsd:decimal"
+    },
+    "volume24hInUsd": {
+      "@id": "bigone:volume24hInUsd",
+      "@type": "xsd:decimal"
+    },
+    "openValue": {
+      "@id": "bigone:openValue",
+      "@type": "xsd:decimal"
+    },
+    "last24hMinPrice": {
+      "@id": "bigone:last24hMinPrice",
+      "@type": "xsd:decimal"
+    },
+    "openInterest": {
+      "@id": "bigone:openInterest",
+      "@type": "xsd:decimal"
+    },
+    "PricePoint": "bigone:PricePoint",
+    "price": {
+      "@id": "bigone:price",
+      "@type": "xsd:decimal"
+    },
+    "time": {
+      "@id": "bigone:time",
+      "@type": "xsd:integer"
+    },
+    "Order": "bigone:Order",
+    "id": {
+      "@id": "bigone:id",
+      "@type": "xsd:string"
+    },
+    "side": {
+      "@id": "bigone:side",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "bigone:type",
+      "@type": "xsd:string"
+    },
+    "size": {
+      "@id": "bigone:size",
+      "@type": "xsd:decimal"
+    },
+    "status": {
+      "@id": "bigone:status",
+      "@type": "xsd:string"
+    },
+    "filled": {
+      "@id": "bigone:filled",
+      "@type": "xsd:decimal"
+    },
+    "notional": {
+      "@id": "bigone:notional",
+      "@type": "xsd:decimal"
+    },
+    "avgPrice": {
+      "@id": "bigone:avgPrice",
+      "@type": "xsd:decimal"
+    },
+    "filledNotional": {
+      "@id": "bigone:filledNotional",
+      "@type": "xsd:decimal"
+    },
+    "reduceOnly": {
+      "@id": "bigone:reduceOnly",
+      "@type": "xsd:boolean"
+    },
+    "isLiquidate": {
+      "@id": "bigone:isLiquidate",
+      "@type": "xsd:boolean"
+    },
+    "userId": {
+      "@id": "bigone:userId",
+      "@type": "xsd:string"
+    },
+    "liquidateUserId": {
+      "@id": "bigone:liquidateUserId",
+      "@type": "xsd:string"
+    },
+    "conditional": {
+      "@id": "bigone:conditional",
+      "@type": "@id"
+    },
+    "ts": {
+      "@id": "bigone:ts",
+      "@type": "xsd:integer"
+    },
+    "seqNo": {
+      "@id": "bigone:seqNo",
+      "@type": "xsd:integer"
+    },
+    "meta": {
+      "@id": "bigone:meta"
+    },
+    "ConditionalOrder": "bigone:ConditionalOrder",
+    "priceType": {
+      "@id": "bigone:priceType",
+      "@type": "xsd:string"
+    },
+    "PlaceOrderRequest": "bigone:PlaceOrderRequest",
+    "Position": "bigone:Position",
+    "currency": {
+      "@id": "bigone:currency",
+      "@type": "xsd:string"
+    },
+    "isCross": {
+      "@id": "bigone:isCross",
+      "@type": "xsd:boolean"
+    },
+    "marginRate": {
+      "@id": "bigone:marginRate",
+      "@type": "xsd:decimal"
+    },
+    "feeRateTaker": {
+      "@id": "bigone:feeRateTaker",
+      "@type": "xsd:decimal"
+    },
+    "feeRateMaker": {
+      "@id": "bigone:feeRateMaker",
+      "@type": "xsd:decimal"
+    },
+    "initMargin": {
+      "@id": "bigone:initMargin",
+      "@type": "xsd:decimal"
+    },
+    "margin": {
+      "@id": "bigone:margin",
+      "@type": "xsd:decimal"
+    },
+    "orderMargin": {
+      "@id": "bigone:orderMargin",
+      "@type": "xsd:decimal"
+    },
+    "realisedPnl": {
+      "@id": "bigone:realisedPnl",
+      "@type": "xsd:decimal"
+    },
+    "totalPnl": {
+      "@id": "bigone:totalPnl",
+      "@type": "xsd:decimal"
+    },
+    "riskLimit": {
+      "@id": "bigone:riskLimit",
+      "@type": "xsd:decimal"
+    },
+    "liquidatePrice": {
+      "@id": "bigone:liquidatePrice",
+      "@type": "xsd:decimal"
+    },
+    "entryPrice": {
+      "@id": "bigone:entryPrice",
+      "@type": "xsd:decimal"
+    },
+    "unrealizedPnl": {
+      "@id": "bigone:unrealizedPnl",
+      "@type": "xsd:decimal"
+    },
+    "leverage": {
+      "@id": "bigone:leverage",
+      "@type": "xsd:decimal"
+    },
+    "equity": {
+      "@id": "bigone:equity",
+      "@type": "xsd:decimal"
+    },
+    "value": {
+      "@id": "bigone:value",
+      "@type": "xsd:decimal"
+    },
+    "risk": {
+      "@id": "bigone:risk",
+      "@type": "xsd:decimal"
+    },
+    "rom": {
+      "@id": "bigone:rom",
+      "@type": "xsd:decimal"
+    },
+    "buyingNotional": {
+      "@id": "bigone:buyingNotional",
+      "@type": "xsd:decimal"
+    },
+    "sellingNotional": {
+      "@id": "bigone:sellingNotional",
+      "@type": "xsd:decimal"
+    },
+    "buyingSize": {
+      "@id": "bigone:buyingSize",
+      "@type": "xsd:decimal"
+    },
+    "sellingSize": {
+      "@id": "bigone:sellingSize",
+      "@type": "xsd:decimal"
+    },
+    "Cash": "bigone:Cash",
+    "readableId": {
+      "@id": "bigone:readableId",
+      "@type": "xsd:integer"
+    },
+    "balances": {
+      "@id": "bigone:balances",
+      "@type": "xsd:decimal"
+    },
+    "available": {
+      "@id": "bigone:available",
+      "@type": "xsd:decimal"
+    },
+    "positionMargin": {
+      "@id": "bigone:positionMargin",
+      "@type": "xsd:decimal"
+    },
+    "positionValue": {
+      "@id": "bigone:positionValue",
+      "@type": "xsd:decimal"
+    },
+    "marginBalances": {
+      "@id": "bigone:marginBalances",
+      "@type": "xsd:decimal"
+    },
+    "Account": "bigone:Account",
+    "cash": {
+      "@id": "bigone:cash",
+      "@type": "@id"
+    },
+    "positions": {
+      "@id": "bigone:positions",
+      "@container": "@list"
+    },
+    "Trade": "bigone:Trade",
+    "orderId": {
+      "@id": "bigone:orderId",
+      "@type": "xsd:string"
+    },
+    "feeRate": {
+      "@id": "bigone:feeRate",
+      "@type": "xsd:decimal"
+    },
+    "pnl": {
+      "@id": "bigone:pnl",
+      "@type": "xsd:decimal"
+    },
+    "fee": {
+      "@id": "bigone:fee",
+      "@type": "xsd:decimal"
+    },
+    "order": {
+      "@id": "bigone:order"
+    },
+    "ConvertAsset": "bigone:ConvertAsset",
+    "asset": {
+      "@id": "bigone:asset",
+      "@type": "xsd:string"
+    },
+    "scale": {
+      "@id": "bigone:scale",
+      "@type": "xsd:integer"
+    },
+    "ConvertRange": "bigone:ConvertRange",
+    "from_asset_max_amount": {
+      "@id": "bigone:from_asset_max_amount",
+      "@type": "xsd:string"
+    },
+    "from_asset_min_amount": {
+      "@id": "bigone:from_asset_min_amount",
+      "@type": "xsd:string"
+    },
+    "to_asset_max_amount": {
+      "@id": "bigone:to_asset_max_amount",
+      "@type": "xsd:string"
+    },
+    "to_asset_min_amount": {
+      "@id": "bigone:to_asset_min_amount",
+      "@type": "xsd:string"
+    },
+    "ConvertQuote": "bigone:ConvertQuote",
+    "from_asset": {
+      "@id": "bigone:from_asset",
+      "@type": "xsd:string"
+    },
+    "to_asset": {
+      "@id": "bigone:to_asset",
+      "@type": "xsd:string"
+    },
+    "px": {
+      "@id": "bigone:px",
+      "@type": "xsd:string"
+    },
+    "from_sz": {
+      "@id": "bigone:from_sz",
+      "@type": "xsd:string"
+    },
+    "to_sz": {
+      "@id": "bigone:to_sz",
+      "@type": "xsd:string"
+    },
+    "quote_id": {
+      "@id": "bigone:quote_id",
+      "@type": "xsd:string"
+    },
+    "quote_ts": {
+      "@id": "bigone:quote_ts",
+      "@type": "xsd:integer"
+    },
+    "ttl_ms": {
+      "@id": "bigone:ttl_ms",
+      "@type": "xsd:integer"
+    },
+    "rfq_size": {
+      "@id": "bigone:rfq_size",
+      "@type": "xsd:string"
+    },
+    "rfq_size_asset": {
+      "@id": "bigone:rfq_size_asset",
+      "@type": "xsd:string"
+    },
+    "CreateTradeRequest": "bigone:CreateTradeRequest",
+    "account_type": {
+      "@id": "bigone:account_type",
+      "@type": "xsd:string"
+    },
+    "ConvertTrade": "bigone:ConvertTrade",
+    "state": {
+      "@id": "bigone:state",
+      "@type": "xsd:string"
+    },
+    "acct_typ": {
+      "@id": "bigone:acct_typ",
+      "@type": "xsd:string"
+    },
+    "CreateOrderBody": "bigone:CreateOrderBody",
+    "asset_pair_name": {
+      "@id": "bigone:asset_pair_name",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "bigone:amount",
+      "@type": "xsd:string"
+    },
+    "stop_price": {
+      "@id": "bigone:stop_price",
+      "@type": "xsd:string"
+    },
+    "operator": {
+      "@id": "bigone:operator",
+      "@type": "xsd:string"
+    },
+    "immediate_or_cancel": {
+      "@id": "bigone:immediate_or_cancel",
+      "@type": "xsd:boolean"
+    },
+    "post_only": {
+      "@id": "bigone:post_only",
+      "@type": "xsd:boolean"
+    },
+    "client_order_id": {
+      "@id": "bigone:client_order_id",
+      "@type": "xsd:string"
+    },
+    "CancelOrderBody": "bigone:CancelOrderBody",
+    "order_id": {
+      "@id": "bigone:order_id",
+      "@type": "xsd:integer"
+    },
+    "CancelAllOrdersBody": "bigone:CancelAllOrdersBody",
+    "Asset": "bigone:Asset",
+    "name": {
+      "@id": "bigone:name",
+      "@type": "xsd:string"
+    },
+    "AssetPair": "bigone:AssetPair",
+    "base_scale": {
+      "@id": "bigone:base_scale",
+      "@type": "xsd:integer"
+    },
+    "quote_scale": {
+      "@id": "bigone:quote_scale",
+      "@type": "xsd:integer"
+    },
+    "base_asset": {
+      "@id": "bigone:base_asset"
+    },
+    "quote_asset": {
+      "@id": "bigone:quote_asset"
+    },
+    "min_quote_value": {
+      "@id": "bigone:min_quote_value",
+      "@type": "xsd:string"
+    },
+    "max_quote_value": {
+      "@id": "bigone:max_quote_value",
+      "@type": "xsd:string"
+    },
+    "PriceLevel": "bigone:PriceLevel",
+    "quantity": {
+      "@id": "bigone:quantity",
+      "@type": "xsd:string"
+    },
+    "order_count": {
+      "@id": "bigone:order_count",
+      "@type": "xsd:integer"
+    },
+    "Ticker": "bigone:Ticker",
+    "bid": {
+      "@id": "bigone:bid",
+      "@type": "@id"
+    },
+    "ask": {
+      "@id": "bigone:ask",
+      "@type": "@id"
+    },
+    "open": {
+      "@id": "bigone:open",
+      "@type": "xsd:string"
+    },
+    "close": {
+      "@id": "bigone:close",
+      "@type": "xsd:string"
+    },
+    "high": {
+      "@id": "bigone:high",
+      "@type": "xsd:string"
+    },
+    "low": {
+      "@id": "bigone:low",
+      "@type": "xsd:string"
+    },
+    "volume": {
+      "@id": "bigone:volume",
+      "@type": "xsd:string"
+    },
+    "daily_change": {
+      "@id": "bigone:daily_change",
+      "@type": "xsd:string"
+    },
+    "Depth": "bigone:Depth",
+    "bids": {
+      "@id": "bigone:bids",
+      "@container": "@list"
+    },
+    "asks": {
+      "@id": "bigone:asks",
+      "@container": "@list"
+    },
+    "MarketTrade": "bigone:MarketTrade",
+    "taker_side": {
+      "@id": "bigone:taker_side",
+      "@type": "xsd:string"
+    },
+    "inserted_at": {
+      "@id": "bigone:inserted_at",
+      "@type": "xsd:string"
+    },
+    "Candle": "bigone:Candle",
+    "SpotAccount": "bigone:SpotAccount",
+    "asset_symbol": {
+      "@id": "bigone:asset_symbol",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "bigone:balance",
+      "@type": "xsd:string"
+    },
+    "locked_balance": {
+      "@id": "bigone:locked_balance",
+      "@type": "xsd:string"
+    },
+    "UserTrade": "bigone:UserTrade",
+    "maker_order_id": {
+      "@id": "bigone:maker_order_id",
+      "@type": "xsd:integer"
+    },
+    "taker_order_id": {
+      "@id": "bigone:taker_order_id",
+      "@type": "xsd:integer"
+    },
+    "maker_fee": {
+      "@id": "bigone:maker_fee",
+      "@type": "xsd:string"
+    },
+    "taker_fee": {
+      "@id": "bigone:taker_fee",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "bigone:created_at",
+      "@type": "xsd:string"
+    },
+    "TradingFee": "bigone:TradingFee",
+    "maker_fee_rate": {
+      "@id": "bigone:maker_fee_rate",
+      "@type": "xsd:string"
+    },
+    "taker_fee_rate": {
+      "@id": "bigone:taker_fee_rate",
+      "@type": "xsd:string"
+    },
+    "AuthenticateCustomerRequest": "bigone:AuthenticateCustomerRequest",
+    "token": {
+      "@id": "bigone:token",
+      "@type": "xsd:string"
+    },
+    "SubscribeMarketDepthRequest": "bigone:SubscribeMarketDepthRequest",
+    "market": {
+      "@id": "bigone:market",
+      "@type": "xsd:string"
+    },
+    "SubscribeMarketCandlesRequest": "bigone:SubscribeMarketCandlesRequest",
+    "period": {
+      "@id": "bigone:period",
+      "@type": "xsd:string"
+    },
+    "limit": {
+      "@id": "bigone:limit",
+      "@type": "xsd:integer"
+    },
+    "SubscribeMarketsTickerRequest": "bigone:SubscribeMarketsTickerRequest",
+    "markets": {
+      "@id": "bigone:markets",
+      "@container": "@list"
+    },
+    "SubscribeMarketTradesRequest": "bigone:SubscribeMarketTradesRequest",
+    "SubscribeViewerOrdersRequest": "bigone:SubscribeViewerOrdersRequest",
+    "BindingGateway": "bigone:BindingGateway",
+    "guid": {
+      "@id": "bigone:guid",
+      "@type": "xsd:string"
+    },
+    "is_deposit_enabled": {
+      "@id": "bigone:is_deposit_enabled",
+      "@type": "xsd:boolean"
+    },
+    "gateway_name": {
+      "@id": "bigone:gateway_name",
+      "@type": "xsd:string"
+    },
+    "min_withdrawal_amount": {
+      "@id": "bigone:min_withdrawal_amount",
+      "@type": "xsd:string"
+    },
+    "withdrawal_fee": {
+      "@id": "bigone:withdrawal_fee",
+      "@type": "xsd:string"
+    },
+    "is_withdrawal_enabled": {
+      "@id": "bigone:is_withdrawal_enabled",
+      "@type": "xsd:boolean"
+    },
+    "min_deposit_amount": {
+      "@id": "bigone:min_deposit_amount",
+      "@type": "xsd:string"
+    },
+    "is_memo_required": {
+      "@id": "bigone:is_memo_required",
+      "@type": "xsd:boolean"
+    },
+    "withdrawal_scale": {
+      "@id": "bigone:withdrawal_scale",
+      "@type": "xsd:integer"
+    },
+    "CreateTransferBody": "bigone:CreateTransferBody",
+    "from": {
+      "@id": "bigone:from",
+      "@type": "xsd:string"
+    },
+    "to": {
+      "@id": "bigone:to",
+      "@type": "xsd:string"
+    },
+    "sub_account": {
+      "@id": "bigone:sub_account",
+      "@type": "xsd:string"
+    },
+    "TransferInfo": "bigone:TransferInfo",
+    "updated_at": {
+      "@id": "bigone:updated_at",
+      "@type": "xsd:string"
+    },
+    "Deposit": "bigone:Deposit",
+    "confirms": {
+      "@id": "bigone:confirms",
+      "@type": "xsd:integer"
+    },
+    "txid": {
+      "@id": "bigone:txid",
+      "@type": "xsd:string"
+    },
+    "is_internal": {
+      "@id": "bigone:is_internal",
+      "@type": "xsd:boolean"
+    },
+    "kind": {
+      "@id": "bigone:kind",
+      "@type": "xsd:string"
+    },
+    "memo": {
+      "@id": "bigone:memo",
+      "@type": "xsd:string"
+    },
+    "target_account": {
+      "@id": "bigone:target_account",
+      "@type": "xsd:string"
+    },
+    "Withdrawal": "bigone:Withdrawal",
+    "customer_id": {
+      "@id": "bigone:customer_id",
+      "@type": "xsd:integer"
+    },
+    "target_address": {
+      "@id": "bigone:target_address",
+      "@type": "xsd:string"
+    },
+    "completed_at": {
+      "@id": "bigone:completed_at",
+      "@type": "xsd:dateTime"
+    },
+    "CreateWithdrawalBody": "bigone:CreateWithdrawalBody",
+    "DepositAddress": "bigone:DepositAddress",
+    "chain": {
+      "@id": "bigone:chain",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "BigONE API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects BigONE's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-13) from openapi/bigone-contract-openapi.yml, openapi/bigone-convert-openapi.yml, openapi/bigone-server-openapi.yml.",
+  "dcterms:created": "2026-10-13",
+  "dcterms:source": [
+    "openapi/bigone-contract-openapi.yml",
+    "openapi/bigone-convert-openapi.yml",
+    "openapi/bigone-server-openapi.yml",
+    "openapi/bigone-spot-openapi.yml",
+    "openapi/bigone-wallet-openapi.yml"
+  ]
+}

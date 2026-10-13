@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-deposit-schema.json",
+  "title": "Deposit",
+  "description": "Deposit record details.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-wallet-openapi.yml#/components/schemas/Deposit",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique deposit ID.",
+      "format": "int64"
+    },
+    "amount": {
+      "type": "string",
+      "description": "The deposit amount."
+    },
+    "confirms": {
+      "type": "integer",
+      "description": "The number of blockchain confirmations received.",
+      "format": "int64"
+    },
+    "txid": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The blockchain transaction ID. Null for internal transfers."
+    },
+    "is_internal": {
+      "type": "boolean",
+      "description": "Whether this is an internal transfer (from another BigONE user)."
+    },
+    "inserted_at": {
+      "type": "string",
+      "description": "The timestamp when the deposit was recorded (ISO 8601).",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "The timestamp when the deposit was last updated (ISO 8601).",
+      "format": "date-time"
+    },
+    "kind": {
+      "type": "string",
+      "description": "The deposit type (e.g., \"on_chain\", \"internal\", \"off_chain\")."
+    },
+    "memo": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The memo or tag associated with the deposit (if applicable)."
+    },
+    "state": {
+      "type": "string",
+      "description": "The current deposit state.",
+      "enum": [
+        "PENDING",
+        "WITHHOLD",
+        "CANCELLED",
+        "COMPLETED"
+      ]
+    },
+    "asset_symbol": {
+      "type": "string",
+      "description": "The asset symbol (e.g., BTC, EOS)."
+    },
+    "target_account": {
+      "type": "string",
+      "enum": [
+        "SPOT",
+        "FUND"
+      ],
+      "description": "The account that received the deposit."
+    }
+  }
+}

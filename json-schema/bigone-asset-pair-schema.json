@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-asset-pair-schema.json",
+  "title": "AssetPair",
+  "description": "An asset pair (trading pair) with its configuration.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/AssetPair",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the asset pair."
+    },
+    "name": {
+      "type": "string",
+      "description": "The asset pair name (e.g., BTC-USDT)."
+    },
+    "base_scale": {
+      "type": "integer",
+      "description": "The decimal precision for the base asset (quantity)."
+    },
+    "quote_scale": {
+      "type": "integer",
+      "description": "The decimal precision for the quote asset (price)."
+    },
+    "base_asset": {
+      "description": "The base asset details.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The asset ID."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "The asset symbol."
+        },
+        "name": {
+          "type": "string",
+          "description": "The asset name."
+        }
+      }
+    },
+    "quote_asset": {
+      "description": "The quote asset details.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The asset ID."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "The asset symbol."
+        },
+        "name": {
+          "type": "string",
+          "description": "The asset name."
+        }
+      }
+    },
+    "min_quote_value": {
+      "type": "string",
+      "description": "The minimum order value in quote currency."
+    },
+    "max_quote_value": {
+      "type": "string",
+      "description": "The maximum order value in quote currency."
+    }
+  }
+}

@@ -1,0 +1,12 @@
+overlay: 1.0.0
+info:
+  title: BigONE Convert API - API Evangelist overlay
+  version: 1.0.0
+extends: openapi/bigone-convert-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-provider: BigONE
+    x-documentation: https://open.big.one/docs/convert/introduction
+    x-rate-limits: 500 requests per 10 seconds per IP (https://open.big.one/docs/general-info)
+    x-error-catalog: ../errors/bigone-error-codes.yml

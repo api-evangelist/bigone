@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-candle-schema.json",
+  "title": "Candle",
+  "description": "A candlestick (OHLCV) data point for an asset pair.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/Candle",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "string",
+      "description": "The candle timestamp (RFC3339, second precision)."
+    },
+    "open": {
+      "type": "string",
+      "description": "The opening price."
+    },
+    "high": {
+      "type": "string",
+      "description": "The highest price during the period."
+    },
+    "low": {
+      "type": "string",
+      "description": "The lowest price during the period."
+    },
+    "close": {
+      "type": "string",
+      "description": "The closing price."
+    },
+    "volume": {
+      "type": "string",
+      "description": "The trading volume during the period (base asset)."
+    }
+  }
+}

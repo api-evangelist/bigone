@@ -1,0 +1,45 @@
+name: BigONE API Error Codes
+generated: '2026-10-13'
+method: searched
+source: https://open.big.one/docs/error-codes
+docs:
+- https://open.big.one/docs/error-codes
+- https://open.big.one/docs/contract/error-codes
+format: custom-json
+envelope:
+  spot_wallet_convert: '{"code": <non-zero int>, "message": "<text>"}'
+  contract: '{"anomaly": "<keyword>"} with HTTP 400 or 403'
+note: Spot, Wallet and Convert return a numeric code envelope (code 0 = success); the Contract API returns anomaly keywords. Docs advise checking the code field rather than relying on HTTP status alone.
+problems:
+- {status: 401, code: 40004, title: Unauthorized, description: Missing or invalid authentication credentials}
+- {status: 401, code: 40106, title: Invalid token, description: 'JWT token is malformed, has an invalid signature, or has expired'}
+- {status: 400, code: 40107, title: Unexpected request header, description: Authorization header format is incorrect}
+- {status: 403, code: 10403, title: Permission denied, description: API key lacks required scopes or IP not in whitelist}
+- {status: 429, code: 10429, title: Too many requests, description: Rate limit exceeded, remediation: 'wait before retrying (recommended: 10 seconds)'}
+- {status: 500, code: 10005, title: Internal error, description: Server encountered an unexpected error, remediation: retry with exponential backoff}
+- {status: 400, code: 10007, title: Parameter error, description: Request parameters are invalid or missing}
+- {status: 404, code: 10013, title: Resource not found, description: The requested resource does not exist}
+- {status: 400, code: 10014, title: Insufficient funds, description: Account balance is insufficient for the operation}
+- {status: 403, code: 40303, title: Forbid cancel market order, description: Market orders cannot be cancelled after submission}
+- {status: 403, code: 40304, title: Creating order is forbidden, description: Order creation is temporarily disabled}
+- {status: 403, code: 40305, title: Account restricted, description: Your account has trading restrictions}
+- {status: 400, code: 50047, title: Liquidity taken too much, description: Order would consume too much liquidity}
+- {status: 400, code: 54041, title: Duplicate order, description: An order with the same client_order_id already exists}
+- {status: 400, code: 54043, title: Unknown opening order, description: The order to cancel was not found}
+- {status: 403, code: 60100, title: Asset pair is suspended, description: Trading is suspended for this asset pair}
+- {status: 400, code: 54046, title: Convert asset not supported, description: The specified asset cannot be converted}
+- {status: 400, code: 54047, title: Convert price expired, description: 'The quote has expired, please request a new one'}
+- {status: 400, code: 54048, title: Convert parameter inconsistent, description: Request parameters don't match the original quote}
+- {status: 400, code: 54050, title: Convert amount too small, description: The amount is below the minimum conversion limit}
+- {status: 403, code: 54053, title: Convert system busy, description: 'System is temporarily overloaded, please retry later', remediation: retry with exponential backoff}
+- {status: 400, code: anomaly.trades/stopped, title: Trading stopped, description: Trading is suspended for the platform.}
+- {status: 400, code: anomaly.trades/suspended, title: Trading suspended, description: Trading is suspended for the specific instrument.}
+- {status: 400, code: anomaly.order/price-out-of-range, title: Price out of range, description: Order price is beyond the allowed price limits.}
+- {status: 400, code: anomaly.open-order/price-invalid-loss, title: Invalid stop loss, description: Stop loss price is invalid for the current market conditions.}
+- {status: 400, code: anomaly.open-order/price-invalid-profit, title: Invalid take profit, description: Take profit price is invalid for the current market conditions.}
+- {status: 400, code: anomaly.request/invalid-params, title: Invalid params, description: One or more request parameters are malformed or invalid.}
+- {status: 400, code: anomaly.close-position/position-not-found, title: Position not found, description: Attempted to close a position that does not exist.}
+- {status: 400, code: anomaly.adjust-margin/invalid-lerverage, title: Invalid leverage, description: The requested leverage adjustment is invalid.}
+- {status: 400, code: anomaly.adjust-margin/position-too-large, title: Position too large, description: The position size exceeds the allowed limit for the requested margin.}
+- {status: 400, code: anomaly.limit-risk/position-too-large, title: Position exceeds risk limit, description: The position size exceeds the risk limit.}
+- {status: 400, code: anomaly.adjust-risk-limit/too-small-or-too-large, title: Risk limit out of range, description: Risk limit adjustment value is out of allowed range.}

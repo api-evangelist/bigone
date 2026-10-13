@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-convert-asset-schema.json",
+  "title": "ConvertAsset",
+  "description": "An asset that can be used in the Convert service.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-convert-openapi.yml#/components/schemas/ConvertAsset",
+  "type": "object",
+  "properties": {
+    "asset": {
+      "type": "string",
+      "description": "The asset symbol (e.g., BTC, USDT)."
+    },
+    "scale": {
+      "type": "integer",
+      "description": "The decimal precision for this asset (number of decimal places)."
+    }
+  }
+}

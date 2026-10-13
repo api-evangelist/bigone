@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-ticker-schema.json",
+  "title": "Ticker",
+  "description": "24-hour trading statistics for an asset pair.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/Ticker",
+  "type": "object",
+  "properties": {
+    "asset_pair_name": {
+      "type": "string",
+      "description": "The asset pair name."
+    },
+    "bid": {
+      "description": "The current highest bid price level.",
+      "$ref": "#/$defs/PriceLevel"
+    },
+    "ask": {
+      "description": "The current lowest ask price level.",
+      "$ref": "#/$defs/PriceLevel"
+    },
+    "open": {
+      "type": "string",
+      "description": "The opening price."
+    },
+    "close": {
+      "type": "string",
+      "description": "The latest price (close)."
+    },
+    "high": {
+      "type": "string",
+      "description": "The highest price in the last 24 hours."
+    },
+    "low": {
+      "type": "string",
+      "description": "The lowest price in the last 24 hours."
+    },
+    "volume": {
+      "type": "string",
+      "description": "The trading volume in the last 24 hours (base asset)."
+    },
+    "daily_change": {
+      "type": "string",
+      "description": "The price change in the last 24 hours (absolute value)."
+    }
+  },
+  "$defs": {
+    "PriceLevel": {
+      "type": "object",
+      "description": "A price level with quantity and order count.",
+      "properties": {
+        "price": {
+          "type": "string",
+          "description": "The price level."
+        },
+        "quantity": {
+          "type": "string",
+          "description": "The total quantity at this price level."
+        },
+        "order_count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "The number of orders at this price level."
+        }
+      }
+    }
+  }
+}

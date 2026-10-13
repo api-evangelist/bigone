@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-transfer-info-schema.json",
+  "title": "TransferInfo",
+  "description": "Detailed information about a transfer.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-wallet-openapi.yml#/components/schemas/TransferInfo",
+  "type": "object",
+  "properties": {
+    "guid": {
+      "type": "string",
+      "description": "The unique identifier provided during the transfer creation."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "The asset symbol."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The transferred amount."
+    },
+    "state": {
+      "type": "string",
+      "description": "The current state of the transfer.",
+      "enum": [
+        "PENDING",
+        "SUCCEED",
+        "FAILED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "description": "The timestamp when the transfer was created (ISO 8601)."
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "The timestamp when the transfer was last updated (ISO 8601)."
+    }
+  }
+}

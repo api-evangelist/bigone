@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-position-schema.json",
+  "title": "Position",
+  "description": "An open contract position with its details including size, PnL, and margin information.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-contract-openapi.yml#/components/schemas/Position",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique position identifier."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "The contract instrument symbol (e.g., BTCUSD, BTCUSDT)."
+    },
+    "userId": {
+      "type": "string",
+      "description": "The user ID who owns this position."
+    },
+    "currency": {
+      "type": "string",
+      "description": "The margin currency for this position (e.g., USDT, BTC)."
+    },
+    "isCross": {
+      "type": "boolean",
+      "description": "Whether the position uses Cross Margin mode. true = cross margin, false = isolated margin."
+    },
+    "marginRate": {
+      "type": "number",
+      "description": "The current margin rate."
+    },
+    "feeRateTaker": {
+      "type": "number",
+      "description": "The taker fee rate for this position."
+    },
+    "feeRateMaker": {
+      "type": "number",
+      "description": "The maker fee rate for this position (negative values indicate rebates)."
+    },
+    "size": {
+      "type": "number",
+      "description": "The position size in contracts. Positive = long position, Negative = short position."
+    },
+    "notional": {
+      "type": "number",
+      "description": "The position notional value in the settlement currency."
+    },
+    "initMargin": {
+      "type": "number",
+      "description": "The initial margin required to open this position."
+    },
+    "margin": {
+      "type": "number",
+      "description": "The current margin allocated to this position."
+    },
+    "orderMargin": {
+      "type": "number",
+      "description": "The margin frozen for open orders related to this position."
+    },
+    "realisedPnl": {
+      "type": "number",
+      "description": "The realized profit and loss from closed trades."
+    },
+    "totalPnl": {
+      "type": "number",
+      "description": "The total profit and loss (realized + unrealized)."
+    },
+    "markPrice": {
+      "type": "number",
+      "description": "The current mark price used for margin calculations."
+    },
+    "riskLimit": {
+      "type": "number",
+      "description": "The current risk limit tier for this position."
+    },
+    "liquidatePrice": {
+      "type": "number",
+      "description": "The estimated liquidation price. When mark price reaches this level, liquidation will be triggered."
+    },
+    "entryPrice": {
+      "type": "number",
+      "description": "The average entry price of the position."
+    },
+    "unrealizedPnl": {
+      "type": "number",
+      "description": "The unrealized profit and loss based on mark price."
+    },
+    "leverage": {
+      "type": "number",
+      "description": "The effective leverage (notional value / margin)."
+    },
+    "equity": {
+      "type": "number",
+      "description": "The position equity (margin + unrealized PnL)."
+    },
+    "value": {
+      "type": "number",
+      "description": "The position value in the settlement currency."
+    },
+    "risk": {
+      "type": "number",
+      "description": "The risk value for this position."
+    },
+    "rom": {
+      "type": "number",
+      "description": "Return on Margin (percentage)."
+    },
+    "buyingNotional": {
+      "type": "number",
+      "description": "The total notional value of buy orders in this position."
+    },
+    "sellingNotional": {
+      "type": "number",
+      "description": "The total notional value of sell orders in this position."
+    },
+    "buyingSize": {
+      "type": "number",
+      "description": "The total size of buy orders in this position."
+    },
+    "sellingSize": {
+      "type": "number",
+      "description": "The total size of sell orders in this position."
+    },
+    "seqNo": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "int64",
+      "description": "The sequence number for order book updates."
+    }
+  }
+}

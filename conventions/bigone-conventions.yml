@@ -1,0 +1,45 @@
+name: BigONE API Conventions
+generated: '2026-10-13'
+method: searched
+source: https://open.big.one/docs/general-info
+docs:
+- https://open.big.one/docs/general-info
+- https://open.big.one/docs/authentication
+- https://open.big.one/docs/error-codes
+auth:
+  style: Client-signed HS256 JWT in Authorization Bearer header
+  see: authentication/bigone-authentication.yml
+idempotency:
+  coverage: partial
+  scope:
+  - createOrder (client_order_id; duplicate returns error 54041 Duplicate order)
+  - createTransfer (guid - a unique identifier for the transfer request, max 36 characters)
+  - createWithdrawal (guid - a unique identifier for the withdrawal request, max 36 characters)
+  mechanism: client-supplied identifier in the request body; no Idempotency-Key header
+  note: Derived from the Spot and Wallet OpenAPI request schemas and the documented 54041 Duplicate order error.
+pagination:
+  style: cursor
+  params: [page_token]
+  response_fields: [page_token]
+  text: For endpoints that return lists, pagination is handled via page_token. To get the next page, include page_token as a query parameter in your next request.
+response_envelope:
+  success: '{"code": 0, "data": ...}'
+  error: '{"code": <non-zero>, "message": "..."}'
+  contract_error: '{"anomaly": "<keyword>"}'
+  see: errors/bigone-error-codes.yml
+numbers: Prices and amounts are returned as strings to preserve precision
+timestamps: milliseconds since the UNIX epoch; JWT nonce in nanoseconds; server time from /ping
+localization: Accept-Language header (en, zh-Hans) for error messages
+rate_limit_signaling: HTTP 429 and error code 10429; no rate-limit headers documented
+versioning: path-versioned (/api/v3, /sapi/v1, /api/contract/v2)
+reversibility:
+- surface: spot orders
+  reversal: [cancelOrderByIdPath, cancelOrder, cancelAllOrders]
+  window: open (unfilled) orders only; market orders cannot be cancelled after submission (error 40303)
+  docs: https://open.big.one/docs/error-codes
+- surface: withdrawals
+  reversal: [cancelWithdrawalByGuid]
+  window: not stated
+- surface: contract orders
+  reversal: ['DELETE /orders/{id}']
+  window: not stated

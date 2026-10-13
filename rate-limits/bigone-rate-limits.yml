@@ -1,0 +1,17 @@
+name: BigONE API Rate Limits
+generated: '2026-10-13'
+method: searched
+source: https://open.big.one/docs/general-info
+exhaustion_status: 429
+exhaustion_error_code: 10429
+note: 'Docs: "If you exceed the rate limit, you will receive a 429 Too Many Requests response." No rate-limit response headers are documented. Page is client-rendered (Docusaurus); quotes taken from the rendered text.'
+limits:
+- name: HTTP Requests
+  limit_text: 500 requests per 10 seconds per IP
+  max: 500
+  window: 10 seconds
+  scope: per-ip
+- name: WebSocket Connections
+  limit_text: 5 connections per user
+  max: 5
+  scope: per-user

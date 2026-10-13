@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-create-order-body-schema.json",
+  "title": "CreateOrderBody",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-spot-openapi.yml#/components/schemas/CreateOrderBody",
+  "type": "object",
+  "required": [
+    "asset_pair_name",
+    "side",
+    "amount",
+    "type"
+  ],
+  "properties": {
+    "asset_pair_name": {
+      "type": "string",
+      "description": "The asset pair name (e.g., BTC-USDT)."
+    },
+    "side": {
+      "type": "string",
+      "description": "The order side. ASK = sell, BID = buy.",
+      "enum": [
+        "ASK",
+        "BID"
+      ]
+    },
+    "price": {
+      "type": "string",
+      "description": "The limit price for LIMIT or STOP_LIMIT orders. Required for LIMIT and STOP_LIMIT types."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The order amount (quantity of the base asset)."
+    },
+    "type": {
+      "type": "string",
+      "description": "The order type.",
+      "enum": [
+        "LIMIT",
+        "MARKET",
+        "STOP_LIMIT",
+        "STOP_MARKET"
+      ]
+    },
+    "stop_price": {
+      "type": "string",
+      "description": "The trigger price for STOP_LIMIT or STOP_MARKET orders."
+    },
+    "operator": {
+      "type": "string",
+      "description": "The trigger condition when combined with stop_price. GTE = triggered when price >= stop_price, LTE = triggered when price <= stop_price.",
+      "enum": [
+        "GTE",
+        "LTE"
+      ]
+    },
+    "immediate_or_cancel": {
+      "type": "boolean",
+      "description": "If true, the order must be filled immediately or cancelled. Valid for LIMIT orders only."
+    },
+    "post_only": {
+      "type": "boolean",
+      "description": "If true, the order will only post to the order book as a maker. If it would take liquidity, it is cancelled."
+    },
+    "client_order_id": {
+      "type": "string",
+      "description": "A user-specified order ID for tracking and cancellation. Must be unique within 24 hours."
+    }
+  }
+}

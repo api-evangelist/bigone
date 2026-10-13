@@ -1,0 +1,257 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/bigone-contract-openapi.yml
+- openapi/bigone-convert-openapi.yml
+- openapi/bigone-server-openapi.yml
+- openapi/bigone-spot-openapi.yml
+- openapi/bigone-wallet-openapi.yml
+vocabulary:
+  name: BigONE Domain Vocabulary
+  description: 'Terms declared by BigONE''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-13'
+  terms:
+  - term: Market Data
+    definition: Public Market Data
+    tags:
+    - Resource Group
+    source: openapi/bigone-contract-openapi.yml
+  - term: Account
+    definition: Account Balance
+    tags:
+    - Resource Group
+    source: openapi/bigone-contract-openapi.yml
+  - term: Position
+    definition: Position Management
+    tags:
+    - Resource Group
+    source: openapi/bigone-contract-openapi.yml
+  - term: Trade
+    definition: Trade History
+    tags:
+    - Resource Group
+    source: openapi/bigone-contract-openapi.yml
+  - term: Order
+    definition: Order Management
+    tags:
+    - Resource Group
+    source: openapi/bigone-contract-openapi.yml
+  - term: Quote
+    definition: Get quotes for conversion
+    tags:
+    - Resource Group
+    source: openapi/bigone-convert-openapi.yml
+  - term: Trades
+    definition: Execute and manage trades
+    tags:
+    - Resource Group
+    source: openapi/bigone-convert-openapi.yml
+  - term: Assets
+    definition: Asset information
+    tags:
+    - Resource Group
+    source: openapi/bigone-convert-openapi.yml
+  - term: Ranges
+    definition: Trading range limits
+    tags:
+    - Resource Group
+    source: openapi/bigone-convert-openapi.yml
+  - term: Asset
+    definition: Wallet Assets
+    tags:
+    - Resource Group
+    source: openapi/bigone-wallet-openapi.yml
+  - term: Funding Account
+    definition: Funding Account Balances
+    tags:
+    - Resource Group
+    source: openapi/bigone-wallet-openapi.yml
+  - term: Transfer
+    definition: Wallet Transfers
+    tags:
+    - Resource Group
+    source: openapi/bigone-wallet-openapi.yml
+  - term: Withdrawal
+    definition: Wallet Withdrawals
+    tags:
+    - Resource Group
+    source: openapi/bigone-wallet-openapi.yml
+  - term: Deposit
+    definition: Wallet Deposits
+    tags:
+    - Resource Group
+    source: openapi/bigone-wallet-openapi.yml
+  - term: Error
+    definition: 'Object declared by the contract with fields: anomaly.'
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/Error
+  - term: Instrument
+    definition: 'Object declared by the contract with fields: usdtPrice, symbol, btcPrice, ethPrice, nextFundingRate, fundingRate, latestPrice,
+      last24hPriceChange, indexPrice, volume24h, turnover24h, nextFundingTime. (6 more)'
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/Instrument
+  - term: PricePoint
+    definition: 'Object declared by the contract with fields: price, time.'
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/PricePoint
+  - term: ConditionalOrder
+    definition: Conditional Order Settings
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/ConditionalOrder
+  - term: PlaceOrderRequest
+    definition: 'Object declared by the contract with fields: symbol, side, type, price, size, reduceOnly.'
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/PlaceOrderRequest
+  - term: Cash
+    definition: The wallet balance and margin information for a specific currency.
+    tags:
+    - Object
+    source: openapi/bigone-contract-openapi.yml#/components/schemas/Cash
+  - term: ConvertAsset
+    definition: An asset that can be used in the Convert service.
+    tags:
+    - Object
+    source: openapi/bigone-convert-openapi.yml#/components/schemas/ConvertAsset
+  - term: ConvertRange
+    definition: The minimum and maximum amounts allowed for a conversion pair.
+    tags:
+    - Object
+    source: openapi/bigone-convert-openapi.yml#/components/schemas/ConvertRange
+  - term: ConvertQuote
+    definition: A quote for converting from one asset to another with a locked price.
+    tags:
+    - Object
+    source: openapi/bigone-convert-openapi.yml#/components/schemas/ConvertQuote
+  - term: CreateTradeRequest
+    definition: Request to execute a conversion trade using a previously obtained quote.
+    tags:
+    - Object
+    source: openapi/bigone-convert-openapi.yml#/components/schemas/CreateTradeRequest
+  - term: ConvertTrade
+    definition: A completed or pending conversion trade.
+    tags:
+    - Object
+    source: openapi/bigone-convert-openapi.yml#/components/schemas/ConvertTrade
+  - term: CreateOrderBody
+    definition: 'Object declared by the contract with fields: asset_pair_name, side, price, amount, type, stop_price, operator, immediate_or_cancel,
+      post_only, client_order_id.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/CreateOrderBody
+  - term: CancelOrderBody
+    definition: Either order_id or client_order_id must be provided.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/CancelOrderBody
+  - term: CancelAllOrdersBody
+    definition: Request body to cancel all open orders for a specific trading pair.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/CancelAllOrdersBody
+  - term: AssetPair
+    definition: An asset pair (trading pair) with its configuration.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/AssetPair
+  - term: PriceLevel
+    definition: A price level with quantity and order count.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/PriceLevel
+  - term: Ticker
+    definition: 24-hour trading statistics for an asset pair.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/Ticker
+  - term: Depth
+    definition: The order book (depth) for an asset pair showing bids and asks.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/Depth
+  - term: MarketTrade
+    definition: A public market trade.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/MarketTrade
+  - term: Candle
+    definition: A candlestick (OHLCV) data point for an asset pair.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/Candle
+  - term: SpotAccount
+    definition: A spot account balance for an asset.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SpotAccount
+  - term: UserTrade
+    definition: A trade execution record from the user's perspective.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/UserTrade
+  - term: TradingFee
+    definition: The trading fee rates for a specific trading pair.
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/TradingFee
+  - term: AuthenticateCustomerRequest
+    definition: 'Object declared by the contract with fields: token.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/AuthenticateCustomerRequest
+  - term: SubscribeMarketDepthRequest
+    definition: 'Object declared by the contract with fields: market.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SubscribeMarketDepthRequest
+  - term: SubscribeMarketCandlesRequest
+    definition: 'Object declared by the contract with fields: market, period, limit.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SubscribeMarketCandlesRequest
+  - term: SubscribeMarketsTickerRequest
+    definition: 'Object declared by the contract with fields: markets.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SubscribeMarketsTickerRequest
+  - term: SubscribeMarketTradesRequest
+    definition: 'Object declared by the contract with fields: market, limit.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SubscribeMarketTradesRequest
+  - term: SubscribeViewerOrdersRequest
+    definition: 'Object declared by the contract with fields: market.'
+    tags:
+    - Object
+    source: openapi/bigone-spot-openapi.yml#/components/schemas/SubscribeViewerOrdersRequest
+  - term: BindingGateway
+    definition: A public deposit or withdrawal network configuration.
+    tags:
+    - Object
+    source: openapi/bigone-wallet-openapi.yml#/components/schemas/BindingGateway
+  - term: CreateTransferBody
+    definition: 'Object declared by the contract with fields: symbol, amount, guid, from, to, type, sub_account.'
+    tags:
+    - Object
+    source: openapi/bigone-wallet-openapi.yml#/components/schemas/CreateTransferBody
+  - term: TransferInfo
+    definition: Detailed information about a transfer.
+    tags:
+    - Object
+    source: openapi/bigone-wallet-openapi.yml#/components/schemas/TransferInfo
+  - term: CreateWithdrawalBody
+    definition: 'Object declared by the contract with fields: symbol, amount, target_account, target_address, memo, guid, gateway_name.'
+    tags:
+    - Object
+    source: openapi/bigone-wallet-openapi.yml#/components/schemas/CreateWithdrawalBody
+  - term: DepositAddress
+    definition: A deposit address for receiving assets on a specific chain.
+    tags:
+    - Object
+    source: openapi/bigone-wallet-openapi.yml#/components/schemas/DepositAddress

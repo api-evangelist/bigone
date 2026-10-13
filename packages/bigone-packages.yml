@@ -1,0 +1,36 @@
+generated: '2026-10-13'
+method: probed
+generator: harvest-packages.py
+source: registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org,
+  packagist.org, crates.io)
+ownership_rule: 'official: true only when the registry metadata (homepage, repository,
+  author, URLs) names the provider''s domain (authentication/bigone-authentication.yml,
+  big.one, security/bigone-domain-security.yml, t.me, x.com, youtube.com) or its accepted
+  GitHub org.'
+packages:
+- name: bigone
+  registry: npm
+  url: https://www.npmjs.com/package/bigone
+  language: JavaScript
+  official: false
+  version: 1.0.0
+  published: '2018-07-14'
+  evidence: npm metadata names no author or repository tied to BigONE; last published
+    2018 - not established as first-party
+- name: bigone
+  registry: pypi
+  url: https://pypi.org/project/bigone/
+  language: Python
+  official: false
+  version: 0.1.5
+  published: '2018-07-08'
+  evidence: PyPI author "jeff kit", homepage github.com/jeffkit/bigone-python - community
+    library
+note: 'No first-party registry package found. BigONE (bigone-eng GitHub org) publishes
+  unregistered SDK source repos: python-openapi-sdk (last push 2023-05-22), ruby-openapi-sdk
+  (2019-06-20), rust-openapi-sdk (2019-08-11) - all predate the current open.big.one
+  docs.'
+source_repos:
+- https://github.com/bigone-eng/python-openapi-sdk
+- https://github.com/bigone-eng/ruby-openapi-sdk
+- https://github.com/bigone-eng/rust-openapi-sdk

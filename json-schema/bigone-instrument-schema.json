@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-instrument-schema.json",
+  "title": "Instrument",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-contract-openapi.yml#/components/schemas/Instrument",
+  "type": "object",
+  "properties": {
+    "usdtPrice": {
+      "type": "number",
+      "description": "USDT Index Price"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Contract Instrument Symbol"
+    },
+    "btcPrice": {
+      "type": "number",
+      "description": "BTC Index Price"
+    },
+    "ethPrice": {
+      "type": "number",
+      "description": "ETH Index Price"
+    },
+    "nextFundingRate": {
+      "type": "number",
+      "description": "Estimated next funding rate"
+    },
+    "fundingRate": {
+      "type": "number",
+      "description": "Current funding rate"
+    },
+    "latestPrice": {
+      "type": "number",
+      "description": "Latest transaction price"
+    },
+    "last24hPriceChange": {
+      "type": "number",
+      "description": "24h price change percentage"
+    },
+    "indexPrice": {
+      "type": "number",
+      "description": "Index price"
+    },
+    "volume24h": {
+      "type": "number",
+      "description": "24h trading volume (in contract size)"
+    },
+    "turnover24h": {
+      "type": "number",
+      "description": "24h turnover"
+    },
+    "nextFundingTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Next funding timestamp"
+    },
+    "markPrice": {
+      "type": "number",
+      "description": "Mark price"
+    },
+    "last24hMaxPrice": {
+      "type": "number",
+      "description": "Highest price in the last 24 hours"
+    },
+    "volume24hInUsd": {
+      "type": "number",
+      "description": "24h trading volume (in USD)"
+    },
+    "openValue": {
+      "type": "number",
+      "description": "Open Value"
+    },
+    "last24hMinPrice": {
+      "type": "number",
+      "description": "Lowest price in the last 24 hours"
+    },
+    "openInterest": {
+      "type": "number",
+      "description": "Total open interest"
+    }
+  }
+}

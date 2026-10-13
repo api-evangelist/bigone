@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-withdrawal-schema.json",
+  "title": "Withdrawal",
+  "description": "Withdrawal record details.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-wallet-openapi.yml#/components/schemas/Withdrawal",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique withdrawal ID.",
+      "format": "int64"
+    },
+    "customer_id": {
+      "type": "integer",
+      "description": "The customer ID who initiated the withdrawal.",
+      "format": "int64"
+    },
+    "asset_symbol": {
+      "type": "string",
+      "description": "The asset symbol (e.g., EOS, BTC)."
+    },
+    "amount": {
+      "type": "string",
+      "description": "The withdrawal amount."
+    },
+    "txid": {
+      "type": "string",
+      "description": "The blockchain transaction ID. Empty if internal transfer or pending."
+    },
+    "is_internal": {
+      "type": "boolean",
+      "description": "Whether this is an internal transfer (to another BigONE user)."
+    },
+    "kind": {
+      "type": "string",
+      "description": "The withdrawal type (e.g., \"on_chain\", \"internal\", \"default\")."
+    },
+    "target_address": {
+      "type": "string",
+      "description": "The destination wallet address."
+    },
+    "memo": {
+      "type": "string",
+      "description": "The memo or tag for the destination address (if required)."
+    },
+    "state": {
+      "type": "string",
+      "description": "The current withdrawal state.",
+      "enum": [
+        "PENDING",
+        "FAILED",
+        "COMPLETED",
+        "CANCELLED"
+      ]
+    },
+    "fee": {
+      "type": "string",
+      "description": "The withdrawal fee deducted from the amount."
+    },
+    "inserted_at": {
+      "type": "string",
+      "description": "The timestamp when the withdrawal was created (ISO 8601).",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "The timestamp when the withdrawal was last updated (ISO 8601).",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The timestamp when the withdrawal was completed (ISO 8601). Null if not yet completed.",
+      "format": "date-time"
+    }
+  }
+}

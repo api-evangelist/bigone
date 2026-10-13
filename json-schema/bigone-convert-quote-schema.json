@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-convert-quote-schema.json",
+  "title": "ConvertQuote",
+  "description": "A quote for converting from one asset to another with a locked price.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-convert-openapi.yml#/components/schemas/ConvertQuote",
+  "type": "object",
+  "properties": {
+    "from_asset": {
+      "type": "string",
+      "description": "The source asset symbol."
+    },
+    "to_asset": {
+      "type": "string",
+      "description": "The destination asset symbol."
+    },
+    "px": {
+      "type": "string",
+      "description": "The conversion price (how much to_asset per unit of from_asset)."
+    },
+    "from_sz": {
+      "type": "string",
+      "description": "The source amount to convert."
+    },
+    "to_sz": {
+      "type": "string",
+      "description": "The destination amount to receive."
+    },
+    "quote_id": {
+      "type": "string",
+      "description": "The unique quote identifier. Required to execute the trade."
+    },
+    "quote_ts": {
+      "type": "integer",
+      "description": "The timestamp when the quote was generated (Unix milliseconds).",
+      "format": "int64"
+    },
+    "ttl_ms": {
+      "type": "integer",
+      "description": "The validity period of the quote in milliseconds."
+    },
+    "rfq_size": {
+      "type": "string",
+      "description": "The requested conversion amount."
+    },
+    "rfq_size_asset": {
+      "type": "string",
+      "description": "The asset of the requested amount."
+    }
+  }
+}

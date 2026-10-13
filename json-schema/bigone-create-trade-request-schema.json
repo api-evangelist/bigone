@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-create-trade-request-schema.json",
+  "title": "CreateTradeRequest",
+  "description": "Request to execute a conversion trade using a previously obtained quote.",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-convert-openapi.yml#/components/schemas/CreateTradeRequest",
+  "type": "object",
+  "required": [
+    "quote_id"
+  ],
+  "properties": {
+    "quote_id": {
+      "type": "string",
+      "description": "The quote ID from the Get Convert Quote endpoint. The quote must not have expired."
+    },
+    "account_type": {
+      "type": "string",
+      "description": "The account type to use for the conversion. Default is FUND.",
+      "enum": [
+        "FUND",
+        "SPOT",
+        "ALL"
+      ]
+    }
+  }
+}

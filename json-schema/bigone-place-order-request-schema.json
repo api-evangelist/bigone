@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigone/main/json-schema/bigone-place-order-request-schema.json",
+  "title": "PlaceOrderRequest",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigone-contract-openapi.yml#/components/schemas/PlaceOrderRequest",
+  "type": "object",
+  "required": [
+    "symbol",
+    "side",
+    "type",
+    "size"
+  ],
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "Contract Instrument Symbol (e.g. BTCUSD)"
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ],
+      "description": "Order Side"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "LIMIT",
+        "MARKET",
+        "IOC",
+        "FOK",
+        "POST_ONLY"
+      ],
+      "description": "Order Type"
+    },
+    "price": {
+      "type": "number",
+      "description": "Order Price (Required for LIMIT orders)"
+    },
+    "size": {
+      "type": "number",
+      "description": "Number of contracts"
+    },
+    "reduceOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Reduce Only Order. If true, the order will only reduce your position, not increase it. If the order would increase your position, it is automatically amended down or canceled."
+    }
+  }
+}

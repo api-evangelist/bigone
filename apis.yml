@@ -1,23 +1,251 @@
 aid: bigone
 name: BigONE
-description: 'BigONE is a company surfaced via the API Evangelist harvest backlog (source: market-gap:crypto-exchanges)
-  and added to the network as a stub for full-pipeline profiling.'
+description: BigONE is a cryptocurrency exchange (big.one) offering spot trading, contract (perpetual futures) trading, instant convert (flash swap) and wallet services. Its developer program at open.big.one documents four REST APIs on api.big.one (Spot v3, Wallet v3, Convert sapi v1 and Contract v2), JWT (HS256) authentication, and WebSocket streams, and publishes the OpenAPI definitions in the bigone-eng/openapi-specs GitHub repository and the WebSocket protobuf in bigone-eng/websocket-proto.
+image: https://b.peatio.com/logos/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/bigone/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:market-gap:crypto-exchanges
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-13 (local-v5; was harvest)
 specificationVersion: '0.20'
 created: '2026-10-13'
 modified: '2026-10-13'
 tags:
 - Company
-apis: []
+- Cryptocurrency
+- Exchanges
+- Trading
+- Derivatives
+- Wallets
+- Market Data
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/bigone-contract-overlay.yaml
+- type: AgenticAccess
+  url: agentic-access/bigone-agentic-access.yml
+- type: RateLimits
+  url: rate-limits/bigone-rate-limits.yml
+- type: Spectral
+  url: rules/bigone-rules.yml
+- type: JSONLD
+  url: json-ld/bigone-context.jsonld
+- type: Vocabulary
+  url: vocabulary/bigone-vocabulary.yml
+- type: DataModel
+  url: data-model/bigone-data-model.yml
+- type: ChangeLog
+  url: changelog/bigone-changelog.yml
+- type: Idempotency
+  url: conventions/bigone-conventions.yml
+- type: Conventions
+  url: conventions/bigone-conventions.yml
+- type: ErrorCatalog
+  url: errors/bigone-error-codes.yml
+- type: ErrorCatalog
+  url: errors/bigone-problem-types.yml
+- type: Conformance
+  url: conformance/bigone-conformance.yml
+- type: Hosts
+  url: hosts/bigone-hosts.yml
+- type: Vendors
+  url: vendors/bigone-vendors.yml
+- type: SDKs
+  url: packages/bigone-packages.yml
+- type: Packages
+  url: packages/bigone-packages.yml
+- type: Authentication
+  url: authentication/bigone-authentication.yml
+- type: DomainSecurity
+  url: security/bigone-domain-security.yml
 - type: Website
   url: https://big.one
+- type: DeveloperPortal
+  url: https://open.big.one/docs/
+- type: Documentation
+  url: https://open.big.one/docs/
+- type: GettingStarted
+  url: https://open.big.one/docs/getting-started
+- type: Authentication
+  url: https://open.big.one/docs/authentication
+- type: RateLimits
+  url: https://open.big.one/docs/general-info
+- type: ErrorCodes
+  url: https://open.big.one/docs/error-codes
+- type: GitHubOrganization
+  url: https://github.com/bigone-eng
+- type: SourceCode
+  url: https://github.com/bigone-eng/openapi-specs
+- type: Support
+  url: https://t.me/bigapi
+- type: X
+  url: https://x.com/BigONEexchange
+- type: YouTube
+  url: https://www.youtube.com/@BigONEExchange
+apis:
+- aid: bigone:bigone-spot-api
+  name: BigONE Spot API
+  description: Spot trading REST API - asset pairs, tickers, order book depth, trades, candles, account balances, order placement and cancellation, user trades and trading fees.
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Spot Trading
+  - Market Data
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-spot-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/spot_rest.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  image: https://b.peatio.com/logos/favicon.ico
+- aid: bigone:bigone-wallet-api
+  name: BigONE Wallet API
+  description: Wallet and asset management REST API - assets, funding accounts, transfers between accounts, deposits, deposit addresses and withdrawals.
+  humanURL: https://open.big.one/docs/wallet/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Wallets
+  - Deposits
+  - Withdrawals
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-wallet-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/wallet_rest.yml
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  image: https://b.peatio.com/logos/favicon.ico
+- aid: bigone:bigone-convert-api
+  name: BigONE Convert API
+  description: Instant asset conversion (flash swap) REST API - convertible assets, ranges, quotes and convert trades.
+  humanURL: https://open.big.one/docs/convert/introduction
+  baseURL: https://api.big.one/sapi/v1/convert
+  tags:
+  - Convert
+  - Swap
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-convert-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/convert_rest.yml
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  image: https://b.peatio.com/logos/favicon.ico
+- aid: bigone:bigone-contract-api
+  name: BigONE Contract API
+  description: Contract and derivatives trading REST API - instruments, order book snapshots, accounts, positions (margin and risk limit), orders and trades.
+  humanURL: https://open.big.one/docs/contract/introduction
+  baseURL: https://api.big.one/api/contract/v2
+  tags:
+  - Derivatives
+  - Futures
+  - Contract Trading
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-contract-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/contract_rest.yml
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+  image: https://b.peatio.com/logos/favicon.ico
+- aid: bigone:bigone-server-api
+  name: BigONE Server API
+  description: Server information endpoint (ping / server time) for the Spot API.
+  humanURL: https://open.big.one/docs/general-info
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Server
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-server-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/spot_server.yml
+  image: https://b.peatio.com/logos/favicon.ico
+- aid: bigone:bigone-websocket-api
+  name: BigONE WebSocket API
+  description: Real-time spot market data and private order/account streams at wss://api.big.one/ws/v2 (JSON or protobuf messages, defined in the published websocket.proto), plus contract streams at wss://api.big.one/ws/contract/v2.
+  humanURL: https://open.big.one/docs/guides/websocket/spot
+  baseURL: https://api.big.one/ws/v2
+  tags:
+  - WebSocket
+  - Streaming
+  - Market Data
+  properties:
+  - type: Protobuf
+    url: grpc/bigone-websocket.proto
+  - type: Documentation
+    url: https://open.big.one/docs/guides/websocket/spot
+  - type: Documentation
+    url: https://open.big.one/docs/guides/websocket/contract
+  image: https://b.peatio.com/logos/favicon.ico
+  x-websocket-url: wss://api.big.one/ws/v2
+x-enrichment:
+  date: '2026-10-13'
+  status: enriched
+  artifacts_added: 30
+  pass: local-v5

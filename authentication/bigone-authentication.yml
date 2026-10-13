@@ -1,0 +1,25 @@
+generated: '2026-10-13'
+method: searched
+source: https://open.big.one/docs/authentication (upgraded from the bearerAuth scheme
+  in the four OpenAPI files)
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/bigone-contract-openapi.yml
+  - openapi/bigone-convert-openapi.yml
+  - openapi/bigone-spot-openapi.yml
+  - openapi/bigone-wallet-openapi.yml
+  description: 'Client-signed JWT (HS256) sent as Authorization: Bearer <token>. Payload
+    claims: type "OpenAPIV2" (required), sub = API Key (required), nonce = timestamp
+    in nanoseconds (required), recv_window = allowable offset in seconds (optional,
+    default 30). Signed with the API Secret as-is (not Base64 encoded).'
+  key_management: https://open.big.one/docs/api-key-setup
+  websocket: Spot WebSocket authenticates in-message; Contract private stream passes
+    the JWT in the Authorization header of the handshake.
+docs: https://open.big.one/docs/authentication

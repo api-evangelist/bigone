@@ -1,0 +1,59 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/bigone-contract-openapi.yml
+- openapi/bigone-convert-openapi.yml
+- openapi/bigone-server-openapi.yml
+- openapi/bigone-spot-openapi.yml
+- openapi/bigone-wallet-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 50
+  statuses_declared: 6
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid parameters or convert error
+  operations: 2
+  media_types:
+  - application/json
+  schema: Error
+- status: 401
+  title: Unauthorized
+  description: Authentication failed
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error
+- status: 403
+  title: Forbidden
+  description: Permission denied
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error
+- status: 404
+  title: Not Found
+  description: Resource not found
+  operations: 1
+  media_types:
+  - application/json
+  schema: Error
+- status: 429
+  title: Too Many Requests
+  description: Rate limit exceeded
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error
+- status: 500
+  title: Internal Server Error
+  description: Internal server error
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error

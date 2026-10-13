@@ -1,0 +1,218 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/bigone-contract-openapi.yml
+- openapi/bigone-convert-openapi.yml
+- openapi/bigone-server-openapi.yml
+- openapi/bigone-spot-openapi.yml
+- openapi/bigone-wallet-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: No MCP server was found. The pre-flight posted tools/list to /mcp on api.big.one, big.one, open.big.one; verdict absent. Candidate tools
+  below are derived from the 47 operation(s) in the provider's own OpenAPI (40 listed); they describe what a server WOULD expose, not one that
+  exists.
+tools:
+- name: get_instruments
+  operationId: GET /instruments
+  method: GET
+  path: /instruments
+  description: Get List of Contracts Detail
+- name: get_convert_assets
+  operationId: getConvertAssets
+  method: GET
+  path: /assets
+  description: Convert Assets
+- name: get_ping
+  operationId: getPing
+  method: GET
+  path: /ping
+  description: Get Server Time
+- name: get_asset_pairs
+  operationId: getAssetPairs
+  method: GET
+  path: /asset_pairs
+  description: Get All Asset Pairs
+- name: get_assets
+  operationId: getAssets
+  method: GET
+  path: /assets
+  description: Get Assets
+- name: get_depth@{symbol}_snapshot
+  operationId: GET /depth@{symbol}/snapshot
+  method: GET
+  path: /depth@{symbol}/snapshot
+  description: Get OrderBook Snapshot
+- name: get_convert_range
+  operationId: getConvertRange
+  method: GET
+  path: /range
+  description: Convert Range
+- name: get_ticker
+  operationId: getTicker
+  method: GET
+  path: /asset_pairs/{asset_pair_name}/ticker
+  description: Get Ticker
+- name: get_funding_accounts
+  operationId: getFundingAccounts
+  method: GET
+  path: /viewer/fund/accounts
+  description: Get All Funding Accounts
+- name: get_accounts
+  operationId: GET /accounts
+  method: GET
+  path: /accounts
+  description: Get Cash and Position Detail
+- name: get_convert_quote
+  operationId: getConvertQuote
+  method: GET
+  path: /viewer/quote
+  description: Convert Quote
+- name: get_tickers
+  operationId: getTickers
+  method: GET
+  path: /asset_pairs/tickers
+  description: Get Multiple Tickers
+- name: get_funding_account_by_symbol
+  operationId: getFundingAccountBySymbol
+  method: GET
+  path: /viewer/fund/accounts/{asset_symbol}
+  description: Get Funding Account by Symbol
+- name: update_positions_margin
+  operationId: PUT /positions/{symbol}/margin
+  method: PUT
+  path: /positions/{symbol}/margin
+  description: Adjust Leverage / Margin
+- name: create_convert_trade
+  operationId: createConvertTrade
+  method: POST
+  path: /viewer/trade
+  description: Create Convert Trade
+- name: get_depth
+  operationId: getDepth
+  method: GET
+  path: /asset_pairs/{asset_pair_name}/depth
+  description: Get Order Book
+- name: get_transfer
+  operationId: getTransfer
+  method: GET
+  path: /viewer/transfer
+  description: Get Transfer Info
+- name: update_positions_risk-limit
+  operationId: PUT /positions/{symbol}/risk-limit
+  method: PUT
+  path: /positions/{symbol}/risk-limit
+  description: Set Risk Limit
+- name: get_convert_trade_detail
+  operationId: getConvertTradeDetail
+  method: GET
+  path: /viewer/trade
+  description: Get Convert Trade Detail
+- name: get_market_trades
+  operationId: getMarketTrades
+  method: GET
+  path: /asset_pairs/{asset_pair_name}/trades
+  description: Get Market Trades
+- name: create_transfer
+  operationId: createTransfer
+  method: POST
+  path: /viewer/transfer
+  description: Create Transfer
+- name: create_orders
+  operationId: POST /orders
+  method: POST
+  path: /orders
+  description: Place Order
+- name: get_convert_trades
+  operationId: getConvertTrades
+  method: GET
+  path: /viewer/trades
+  description: Get Convert Trades
+- name: get_candles
+  operationId: getCandles
+  method: GET
+  path: /asset_pairs/{asset_pair_name}/candles
+  description: Get Candles
+- name: get_deposits
+  operationId: getDeposits
+  method: GET
+  path: /viewer/deposits
+  description: Get User Deposit History
+- name: get_orders
+  operationId: GET /orders
+  method: GET
+  path: /orders
+  description: Get Order List
+- name: get_account_by_symbol
+  operationId: getAccountBySymbol
+  method: GET
+  path: /viewer/accounts/{asset_symbol}
+  description: Get Account by Symbol
+- name: get_deposit_address
+  operationId: getDepositAddress
+  method: GET
+  path: /viewer/assets/{asset_symbol}/address
+  description: Get Deposit Address
+- name: get_orders_opening
+  operationId: GET /orders/opening
+  method: GET
+  path: /orders/opening
+  description: Get Active Order List
+- name: create_order
+  operationId: createOrder
+  method: POST
+  path: /viewer/orders
+  description: Create Order
+- name: get_withdrawal
+  operationId: getWithdrawal
+  method: GET
+  path: /viewer/withdrawals
+  description: Get User Withdrawal History
+- name: delete_orders
+  operationId: DELETE /orders/{id}
+  method: DELETE
+  path: /orders/{id}
+  description: Cancel Order
+- name: get_order_by_id
+  operationId: getOrderById
+  method: GET
+  path: /viewer/orders/{id}
+  description: Get Order by ID
+- name: create_withdrawal
+  operationId: createWithdrawal
+  method: POST
+  path: /viewer/withdrawals
+  description: Create Withdrawal
+- name: get_orders_count
+  operationId: GET /orders/count
+  method: GET
+  path: /orders/count
+  description: Count Orders
+- name: get_order
+  operationId: getOrder
+  method: GET
+  path: /viewer/order
+  description: Get Order by ID or Client ID
+- name: get_withdrawal_by_guid
+  operationId: getWithdrawalByGuid
+  method: GET
+  path: /viewer/withdrawals/{guid}
+  description: Get Withdrawal by GUID
+- name: get_opening_count
+  operationId: GET /orders/opening/count
+  method: GET
+  path: /orders/opening/count
+  description: Count Active Orders
+- name: create_multi_orders
+  operationId: createMultiOrders
+  method: POST
+  path: /viewer/orders/multi
+  description: Create Multiple Orders
+- name: cancel_withdrawal_by_guid
+  operationId: cancelWithdrawalByGuid
+  method: POST
+  path: /viewer/withdrawals/{guid}/cancel
+  description: Cancel Withdrawal

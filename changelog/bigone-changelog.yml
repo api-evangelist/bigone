@@ -1,0 +1,48 @@
+name: BigONE API Changelog
+generated: '2026-10-13'
+method: searched
+source: https://open.big.one/docs/spot/changelog
+docs: https://open.big.one/docs/spot/changelog
+scheme: dated
+entries:
+- version: contract-2025-12-26
+  date: '2025-12-26'
+  breaking: false
+  highlights:
+  - 'Contract REST and WebSocket documentation refinements: Account/Cash, Order, Trade
+    and Position schemas; Count Trades adds start-time and end-time parameters'
+- version: convert-2025-06-01
+  date: '2025-06-01'
+  breaking: false
+  highlights:
+  - Convert changelog introduced
+- version: spot-2023-10-25
+  date: '2023-10-25'
+  breaking: false
+  highlights:
+  - Add the required permission description to the interface
+- version: spot-2023-02-21
+  date: '2023-02-21'
+  breaking: false
+  highlights:
+  - /viewer/transfer supports transfers between master-account and sub-account fund/spot
+    accounts
+- version: spot-2022-11-08
+  date: '2022-11-08'
+  breaking: false
+  highlights:
+  - New endpoint GET /viewer/trading_fees
+- version: spot-2022-06-02
+  date: '2022-06-02'
+  breaking: false
+  highlights:
+  - Subscribe to orders without specifying an asset pair
+- version: spot-2022-04-13
+  date: '2022-04-13'
+  breaking: true
+  highlights:
+  - Client order id for create/get/cancel order
+  - batch create stop orders is disabled
+related_docs:
+- https://open.big.one/docs/contract/changelog
+- https://open.big.one/docs/convert/changelog
