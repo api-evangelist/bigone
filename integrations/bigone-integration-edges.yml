@@ -1,5 +1,5 @@
 generated: '2026-10-13'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/bigone/integrations
 - https://n8n.io/integrations/bigone/
@@ -9,8 +9,24 @@ checked:
 - https://composio.dev/toolkits/bigone
 - https://monid.ai/tools/bigone
 - https://n8n.io/integrations/bigone/
+- https://raw.githubusercontent.com/ccxt/ccxt/master/exchanges.json
 - https://zapier.com/apps/bigone/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: CCXT
+  partner: null
+  partner_match: null
+  type: coverage
+  channel: open-source-node
+  relationship: connector-coverage
+  direction: partner-built
+  evidence: https://github.com/ccxt/ccxt/blob/master/ts/src/bigone.ts
+  ccxt_id: bigone
+  ccxt_certified: null
+  ccxt_pro: null
+  matched_by: domain:big.one
+  partner_gap: no ccxt repo in all/* (catalog gap)
+  detected_by: sweep-crypto.py
+  first_seen: '2026-10-13'
 templates: []
