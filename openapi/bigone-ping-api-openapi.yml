@@ -1,23 +1,28 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
+  title: Bigone Ping API
   version: 1.0.0
-  title: Server API
-  description: Server internal status and time API.
   contact:
     email: developer@big.one
+  description: 'Operations tagged Ping across 2 of this provider''s published API definitions: spot_server.yml, bigone-server-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
-  - url: 'https://api.big.one/api/v3'
+- url: https://api.big.one/api/v3
+tags:
+- name: Ping
 paths:
   /ping:
     get:
       summary: Get Server Time
-      description: |
-        Returns the current server timestamp in nanoseconds.
+      description: 'Returns the current server timestamp in nanoseconds.
+
 
         This endpoint is commonly used for:
+
         - Checking server connectivity and measuring latency
+
         - Synchronizing client clocks with the server
-        - Verifying API availability
+
+        - Verifying API availability'
       operationId: getPing
       responses:
         '200':
@@ -32,3 +37,10 @@ paths:
                     format: int64
                     description: The current server timestamp in nanoseconds (Unix time with nanosecond precision).
                     example: 1528102434742412000
+      tags:
+      - Ping
+    servers:
+    - url: https://api.big.one/api/v3
+x-refined-from:
+- spot_server.yml
+- bigone-server-openapi.yml

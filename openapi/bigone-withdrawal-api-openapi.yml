@@ -1,0 +1,283 @@
+openapi: 3.2.0
+info:
+  title: Bigone Withdrawal API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Withdrawal across 2 of this provider''s published API definitions: wallet_rest.yml, bigone-wallet-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/v3
+tags:
+- name: Withdrawal
+  description: Wallet Withdrawals
+paths:
+  /viewer/withdrawals:
+    get:
+      tags:
+      - Withdrawal
+      summary: Get User Withdrawal History
+      description: Returns a paginated list of the authenticated user's withdrawal history, ordered by creation time (newest first).
+      operationId: getWithdrawal
+      parameters:
+      - in: query
+        name: asset_symbol
+        description: The asset symbol to filter by (e.g., BTC, EOS). Optional.
+        required: false
+        schema:
+          type: string
+        example: EOS
+      - in: query
+        name: kind
+        description: The withdrawal type to filter by (e.g., "on_chain", "internal", "off_chain"). Optional.
+        required: false
+        schema:
+          type: string
+        example: on_chain
+      - in: query
+        name: txid
+        description: The blockchain transaction ID to filter by. Optional.
+        required: false
+        schema:
+          type: string
+        example: '0x0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9'
+      - in: query
+        name: page_token
+        description: Pagination token obtained from the previous response. Use to retrieve the next page.
+        required: false
+        schema:
+          type: string
+        example: eyJvZmZzZXQiOjEwMCwia2luZCI6IlRSQU5TRkVSIn0=
+      responses:
+        '200':
+          description: List of withdrawals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Withdrawal'
+      security:
+      - bearerAuth:
+        - view withdrawal history
+    post:
+      tags:
+      - Withdrawal
+      summary: Create Withdrawal
+      description: 'Creates a new withdrawal request.
+
+
+        **Requirements:**
+
+        - The destination address must be in the user''s whitelist
+
+        - The asset must support withdrawals on the specified network
+
+
+        **Note:** The destination address must be pre-configured in the user''s whitelist address settings.'
+      operationId: createWithdrawal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWithdrawalBody'
+      responses:
+        '200':
+          description: Withdrawal created successfully. Returns the withdrawal details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Withdrawal'
+      security:
+      - bearerAuth:
+        - execute withdrawals
+    servers:
+    - url: https://api.big.one/api/v3
+  /viewer/withdrawals/{guid}:
+    get:
+      tags:
+      - Withdrawal
+      summary: Get Withdrawal by GUID
+      description: Returns detailed information about a specific withdrawal by its unique identifier.
+      operationId: getWithdrawalByGuid
+      parameters:
+      - in: path
+        name: guid
+        required: true
+        description: The unique withdrawal identifier.
+        schema:
+          type: string
+        example: c37173f4-751f-4cc1-9904-c1041dcae4f7
+      responses:
+        '200':
+          description: Withdrawal details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Withdrawal'
+      security:
+      - bearerAuth:
+        - view withdrawal history
+    servers:
+    - url: https://api.big.one/api/v3
+  /viewer/withdrawals/{guid}/cancel:
+    post:
+      tags:
+      - Withdrawal
+      summary: Cancel Withdrawal
+      description: 'Submits a cancellation request for a pending withdrawal.
+
+
+        **Requirements:**
+
+        - The withdrawal must be in a cancellable state (typically PENDING state with no txid)
+
+        - Only withdrawals that haven''t been broadcast to the blockchain can be cancelled
+
+
+        :::warning[Asynchronous Operation]
+
+        A successful response indicates that the cancellation request has been accepted, not that the withdrawal has been cancelled. Use the Get Withdrawal by GUID endpoint to verify the final status.
+
+        :::'
+      operationId: cancelWithdrawalByGuid
+      parameters:
+      - in: path
+        name: guid
+        required: true
+        description: The unique identifier of the withdrawal to cancel.
+        schema:
+          type: string
+        example: c37173f4-751f-4cc1-9904-c1041dcae4f7
+      responses:
+        '200':
+          description: Cancellation request accepted. The response body is a standard success structure with an empty `data` field.
+      security:
+      - bearerAuth:
+        - execute withdrawals
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    Withdrawal:
+      type: object
+      description: Withdrawal record details.
+      properties:
+        id:
+          type: integer
+          description: The unique withdrawal ID.
+          format: int64
+          example: 210496
+        customer_id:
+          type: integer
+          description: The customer ID who initiated the withdrawal.
+          format: int64
+          example: 123456
+        asset_symbol:
+          type: string
+          description: The asset symbol (e.g., EOS, BTC).
+          example: EOS
+        amount:
+          type: string
+          description: The withdrawal amount.
+          example: '200.124'
+        txid:
+          type: string
+          description: The blockchain transaction ID. Empty if internal transfer or pending.
+          example: '0x0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9'
+        is_internal:
+          type: boolean
+          description: Whether this is an internal transfer (to another BigONE user).
+          example: false
+        kind:
+          type: string
+          description: The withdrawal type (e.g., "on_chain", "internal", "default").
+          example: on_chain
+        target_address:
+          type: string
+          description: The destination wallet address.
+          example: '0x3c35858196C43e9Db361445dAc49Df61a177629b'
+        memo:
+          type: string
+          description: The memo or tag for the destination address (if required).
+          example: '123456'
+        state:
+          type: string
+          description: The current withdrawal state.
+          enum:
+          - PENDING
+          - FAILED
+          - COMPLETED
+          - CANCELLED
+          example: COMPLETED
+        fee:
+          type: string
+          description: The withdrawal fee deducted from the amount.
+          example: '0.01'
+        inserted_at:
+          type: string
+          description: The timestamp when the withdrawal was created (ISO 8601).
+          format: date-time
+          example: '2021-01-01T12:00:00Z'
+        updated_at:
+          type: string
+          description: The timestamp when the withdrawal was last updated (ISO 8601).
+          format: date-time
+          example: '2021-01-01T12:00:05Z'
+        completed_at:
+          type:
+          - string
+          - 'null'
+          description: The timestamp when the withdrawal was completed (ISO 8601). Null if not yet completed.
+          format: date-time
+          example: '2021-01-01T12:10:00Z'
+    CreateWithdrawalBody:
+      type: object
+      required:
+      - symbol
+      - amount
+      - target_address
+      properties:
+        symbol:
+          type: string
+          description: The asset symbol (e.g., EOS, BTC).
+          example: EOS
+        amount:
+          type: string
+          description: The amount to withdraw.
+          example: '100.00'
+        target_account:
+          type: string
+          description: The source account for withdrawal deduction.
+          enum:
+          - SPOT
+          - FUND
+          default: FUND
+        target_address:
+          type: string
+          description: The destination wallet address.
+          example: '0x3c35858196C43e9Db361445dAc49Df61a177629b'
+        memo:
+          type: string
+          description: The memo or tag for the destination address (if required by the asset).
+          example: '123456'
+        guid:
+          type: string
+          description: A unique identifier for the withdrawal request (max 36 characters).
+          example: c37173f4-751f-4cc1-9904-c1041dcae4f7
+        gateway_name:
+          type: string
+          description: 'The gateway name (chain/network) identifier, e.g., "Ethereum", "BinanceSmartChain", "Tron", "Mixin".
+
+
+            This specifies which blockchain network to use for the withdrawal. Available gateways depend on the asset.
+
+            '
+          example: Ethereum
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- wallet_rest.yml
+- bigone-wallet-openapi.yml

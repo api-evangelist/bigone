@@ -1,0 +1,132 @@
+openapi: 3.2.0
+info:
+  title: Bigone Asset API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Asset across 2 of this provider''s published API definitions: wallet_rest.yml, bigone-wallet-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/v3
+tags:
+- name: Asset
+  description: Wallet Assets
+paths:
+  /assets:
+    get:
+      tags:
+      - Asset
+      summary: Get Assets
+      description: 'Returns public asset metadata and network configuration for the current broker.
+
+
+        Use this endpoint to discover supported assets, precision settings, transfer availability, and public deposit or withdrawal network settings.
+
+
+        :::tip
+
+        Cache this response and refresh periodically. Asset and network settings are cached by the API and usually change infrequently.
+
+        :::'
+      operationId: getAssets
+      responses:
+        '200':
+          description: List of assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    Asset:
+      type: object
+      description: An asset with public metadata and available network settings.
+      properties:
+        uuid:
+          type: string
+          description: The unique asset identifier.
+          example: 6f5f5e6b-1b39-4d33-9f1a-0d7f0a7b9b1c
+        symbol:
+          type: string
+          description: The asset symbol.
+          example: USDT
+        name:
+          type: string
+          description: The asset display name.
+          example: Tether USD
+        scale:
+          type: integer
+          description: The maximum decimal precision supported for the asset.
+          example: 6
+        is_fiat:
+          type: boolean
+          description: Whether the asset is a fiat currency.
+          example: false
+        is_transfer_enabled:
+          type: boolean
+          description: Whether internal transfers are enabled for the asset in any supported account type.
+          example: true
+        transfer_scale:
+          type: integer
+          description: The decimal precision supported for internal transfers.
+          example: 6
+        binding_gateways:
+          type: array
+          description: Public network configurations available for the asset.
+          items:
+            $ref: '#/components/schemas/BindingGateway'
+    BindingGateway:
+      type: object
+      description: A public deposit or withdrawal network configuration.
+      properties:
+        guid:
+          type: string
+          description: The unique network binding identifier.
+          example: 4c3f6a29-9d9d-45c7-a82a-5e5d6b71f1d2
+        is_deposit_enabled:
+          type: boolean
+          description: Whether deposits are enabled on this network.
+          example: true
+        gateway_name:
+          type: string
+          description: The network or gateway name.
+          example: TRON
+        min_withdrawal_amount:
+          type: string
+          description: The minimum withdrawal amount on this network.
+          example: '10'
+        withdrawal_fee:
+          type: string
+          description: The withdrawal fee charged on this network.
+          example: '1'
+        is_withdrawal_enabled:
+          type: boolean
+          description: Whether withdrawals are enabled on this network.
+          example: true
+        min_deposit_amount:
+          type: string
+          description: The minimum deposit amount on this network.
+          example: '0.000001'
+        is_memo_required:
+          type: boolean
+          description: Whether a memo, tag, or similar secondary address field is required for deposits on this network.
+          example: false
+        withdrawal_scale:
+          type: integer
+          description: The maximum decimal precision supported for withdrawals on this network.
+          example: 6
+        scale:
+          type: integer
+          description: The maximum decimal precision supported for the asset on this network.
+          example: 6
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- wallet_rest.yml
+- bigone-wallet-openapi.yml

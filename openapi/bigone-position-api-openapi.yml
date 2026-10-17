@@ -1,0 +1,244 @@
+openapi: 3.2.0
+info:
+  title: Bigone Position API
+  version: 2.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Position across 2 of this provider''s published API definitions: contract_rest.yml, bigone-contract-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/contract/v2
+tags:
+- name: Position
+  description: Position Management
+paths:
+  /positions/{symbol}/margin:
+    put:
+      tags:
+      - Position
+      summary: Adjust Leverage / Margin
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                margin:
+                  type: number
+                  description: Position Margin. Set 0 unless adding extra margin (isolated).
+                  example: 0
+                leverage:
+                  type: number
+                  description: Leverage (valid when isCross is true)
+                  example: 100
+                isCross:
+                  type: boolean
+                  description: 'Margin Type. true: Cross Margin, false: Isolated Margin'
+                  example: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+      operationId: putPositionsBySymbolMargin
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.big.one/api/contract/v2
+  /positions/{symbol}/risk-limit:
+    put:
+      tags:
+      - Position
+      summary: Set Risk Limit
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Contract types, includes BTCUSD, BTCUSDT, ETHUSDT, EOSUSDT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - notional
+              properties:
+                notional:
+                  type: number
+                  description: Position notional value limit
+                  example: 200
+            example:
+              notional: 200
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notional:
+                    type: number
+                    description: Position notional value limit
+                    example: 200
+                  IMR:
+                    type: number
+                    description: Initial Margin Rate
+                    example: 0.015
+              example:
+                notional: 200
+                IMR: 0.015
+      operationId: putPositionsBySymbolRiskLimit
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.big.one/api/contract/v2
+components:
+  schemas:
+    Position:
+      type: object
+      description: An open contract position with its details including size, PnL, and margin information.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique position identifier.
+          example: 5aec8f3f-9846-41af-0005-1b306eeb533a
+        symbol:
+          type: string
+          description: The contract instrument symbol (e.g., BTCUSD, BTCUSDT).
+          example: BTCUSD
+        userId:
+          type: string
+          description: The user ID who owns this position.
+          example: 5aec525e-335d-4724-0005-20153b361f89
+        currency:
+          type: string
+          description: The margin currency for this position (e.g., USDT, BTC).
+          example: BTC
+        isCross:
+          type: boolean
+          description: Whether the position uses Cross Margin mode. true = cross margin, false = isolated margin.
+          example: true
+        marginRate:
+          type: number
+          description: The current margin rate.
+          example: 0.01
+        feeRateTaker:
+          type: number
+          description: The taker fee rate for this position.
+          example: 0.0007
+        feeRateMaker:
+          type: number
+          description: The maker fee rate for this position (negative values indicate rebates).
+          example: -0.0002
+        size:
+          type: number
+          description: The position size in contracts. Positive = long position, Negative = short position.
+          example: 0
+        notional:
+          type: number
+          description: The position notional value in the settlement currency.
+          example: 0
+        initMargin:
+          type: number
+          description: The initial margin required to open this position.
+          example: 0
+        margin:
+          type: number
+          description: The current margin allocated to this position.
+          example: 0
+        orderMargin:
+          type: number
+          description: The margin frozen for open orders related to this position.
+          example: 0.0013327626
+        realisedPnl:
+          type: number
+          description: The realized profit and loss from closed trades.
+          example: 0
+        totalPnl:
+          type: number
+          description: The total profit and loss (realized + unrealized).
+          example: 0
+        markPrice:
+          type: number
+          description: The current mark price used for margin calculations.
+          example: 11303.14
+        riskLimit:
+          type: number
+          description: The current risk limit tier for this position.
+          example: 100
+        liquidatePrice:
+          type: number
+          description: The estimated liquidation price. When mark price reaches this level, liquidation will be triggered.
+          example: 0
+        entryPrice:
+          type: number
+          description: The average entry price of the position.
+          example: 0
+        unrealizedPnl:
+          type: number
+          description: The unrealized profit and loss based on mark price.
+          example: 0
+        leverage:
+          type: number
+          description: The effective leverage (notional value / margin).
+          example: 100
+        equity:
+          type: number
+          description: The position equity (margin + unrealized PnL).
+          example: 0
+        value:
+          type: number
+          description: The position value in the settlement currency.
+          example: 0
+        risk:
+          type: number
+          description: The risk value for this position.
+          example: 0
+        rom:
+          type: number
+          description: Return on Margin (percentage).
+          example: 0
+        buyingNotional:
+          type: number
+          description: The total notional value of buy orders in this position.
+          example: 0
+        sellingNotional:
+          type: number
+          description: The total notional value of sell orders in this position.
+          example: -0.116909
+        buyingSize:
+          type: number
+          description: The total size of buy orders in this position.
+          example: 0
+        sellingSize:
+          type: number
+          description: The total size of sell orders in this position.
+          example: -1400
+        seqNo:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The sequence number for order book updates.
+          example: null
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- contract_rest.yml
+- bigone-contract-openapi.yml

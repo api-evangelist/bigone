@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: Bigone Quote API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Quote across 2 of this provider''s published API definitions: convert_rest.yml, bigone-convert-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/sapi/v1/convert
+tags:
+- name: Quote
+  description: Get quotes for conversion
+paths:
+  /viewer/quote:
+    get:
+      tags:
+      - Quote
+      summary: Convert Quote
+      description: Request a conversion quote for a specified amount. The quote locks the price for a limited time (see ttl_ms).
+      operationId: getConvertQuote
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: from_asset
+        required: true
+        schema:
+          type: string
+        description: The source asset symbol (e.g., USDT).
+        example: USDT
+      - in: query
+        name: to_asset
+        required: true
+        schema:
+          type: string
+        description: The destination asset symbol (e.g., BTC).
+        example: BTC
+      - in: query
+        name: rfq_size
+        required: true
+        schema:
+          type: string
+        description: The amount to convert.
+        example: '333'
+      - in: query
+        name: rfq_size_asset
+        required: true
+        schema:
+          type: string
+        description: The asset of the amount to convert (from_asset or to_asset).
+        example: USDT
+      responses:
+        '200':
+          description: Quote details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertQuote'
+    servers:
+    - url: https://api.big.one/sapi/v1/convert
+components:
+  schemas:
+    ConvertQuote:
+      type: object
+      description: A quote for converting from one asset to another with a locked price.
+      properties:
+        from_asset:
+          type: string
+          description: The source asset symbol.
+          example: USDT
+        to_asset:
+          type: string
+          description: The destination asset symbol.
+          example: BTC
+        px:
+          type: string
+          description: The conversion price (how much to_asset per unit of from_asset).
+          example: '0.00000962'
+        from_sz:
+          type: string
+          description: The source amount to convert.
+          example: '333'
+        to_sz:
+          type: string
+          description: The destination amount to receive.
+          example: '0.00320533'
+        quote_id:
+          type: string
+          description: The unique quote identifier. Required to execute the trade.
+          example: dd5091d4-1e90-48b3-83bc-bea1312660ab
+        quote_ts:
+          type: integer
+          description: The timestamp when the quote was generated (Unix milliseconds).
+          format: int64
+          example: 1747208733939
+        ttl_ms:
+          type: integer
+          description: The validity period of the quote in milliseconds.
+          example: 10000
+        rfq_size:
+          type: string
+          description: The requested conversion amount.
+          example: '333'
+        rfq_size_asset:
+          type: string
+          description: The asset of the requested amount.
+          example: USDT
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- convert_rest.yml
+- bigone-convert-openapi.yml

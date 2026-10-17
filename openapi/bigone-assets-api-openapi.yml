@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: Bigone Assets API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Assets across 2 of this provider''s published API definitions: convert_rest.yml, bigone-convert-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/sapi/v1/convert
+tags:
+- name: Assets
+  description: Asset information
+paths:
+  /assets:
+    get:
+      tags:
+      - Assets
+      summary: Convert Assets
+      description: Get all convertible assets. Optionally filter by source asset.
+      operationId: getConvertAssets
+      parameters:
+      - in: query
+        name: from_asset
+        description: The source asset symbol to filter by. Optional.
+        required: false
+        schema:
+          type: string
+        example: USDT
+      responses:
+        '200':
+          description: List of convertible assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConvertAsset'
+    servers:
+    - url: https://api.big.one/sapi/v1/convert
+components:
+  schemas:
+    ConvertAsset:
+      type: object
+      description: An asset that can be used in the Convert service.
+      properties:
+        asset:
+          type: string
+          description: The asset symbol (e.g., BTC, USDT).
+          example: BTC
+        scale:
+          type: integer
+          description: The decimal precision for this asset (number of decimal places).
+          example: 8
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- convert_rest.yml
+- bigone-convert-openapi.yml

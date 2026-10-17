@@ -1,0 +1,477 @@
+openapi: 3.2.0
+info:
+  title: Bigone Account API
+  contact:
+    email: developer@big.one
+  version: '1.0'
+  description: 'Operations tagged Account across 4 of this provider''s published API definitions: contract_rest.yml, spot_rest.yml, bigone-contract-openapi.yml, bigone-spot-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/contract/v2
+- url: https://api.big.one/api/v3
+tags:
+- name: Account
+  description: Account Balance
+paths:
+  /accounts:
+    get:
+      tags:
+      - Account
+      summary: Get Cash and Position Detail
+      description: Returns the account balance (cash) and all open positions for the authenticated user.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+                example:
+                - cash:
+                    readableId: 1000000
+                    positionValue: 0.004628
+                    unrealizedPnl: 1.3864628645684e-05
+                    positionMargin: 0.000939921597676495
+                    balances: 1002.2989371904613
+                    userId: 5c219261-1d2f-484c-0004-bc929117ec73
+                    margin: 0.000926056969030811
+                    available: 1002.2980111334923
+                    orderMargin: 0
+                    marginRate: 9.37765720185e-07
+                    marginBalances: 1002.2989510550899
+                    leverage: 5.0e-06
+                    id: 5c26b683-7182-46cb-0004-0dfb00c0cac3
+                    currency: BTC
+                  positions:
+                  - feeRateMaker: 0.0002
+                    notional: -0.004614135371354316
+                    markPrice: 6482.33287802
+                    liquidatePrice: 8087.5
+                    realisedPnl: 0.039842718483038435
+                    unrealizedPnl: 1.3864628645684e-05
+                    riskLimit: 198
+                    buyingNotional: 0
+                    sellingNotional: 0
+                    value: -0.004628
+                    symbol: BTCUSD
+                    seqNo: null
+                    risk: 0.024619
+                    totalPnl: 0.039151131904984315
+                    userId: 5c219261-1d2f-484c-0004-bc929117ec73
+                    margin: 0.000926056969030811
+                    orderMargin: 0
+                    equity: 0.000939921597676495
+                    feeRateTaker: 0.0006
+                    marginRate: 0.2
+                    sellingSize: 0
+                    size: -30
+                    rom: 0.015
+                    buyingSize: 0
+                    leverage: 5
+                    isCross: false
+                    id: 5c26b69f-95c8-4b51-0004-71ce886084be
+                    entryPrice: 6501.76
+                    currency: BTC
+      operationId: getAccounts
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.big.one/api/contract/v2
+  /viewer/accounts:
+    get:
+      tags:
+      - Account
+      summary: Get All Accounts
+      description: Returns all spot accounts for the user.
+      operationId: getViewerAccounts
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpotAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-operation-id-source: normalized
+      x-operation-id-original: getAccounts
+    servers:
+    - url: https://api.big.one/api/v3
+  /viewer/accounts/{asset_symbol}:
+    get:
+      tags:
+      - Account
+      summary: Get Account by Symbol
+      description: Returns a specific spot account.
+      operationId: getAccountBySymbol
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: asset_symbol
+        required: true
+        schema:
+          type: string
+          default: BTC
+        example: BTC
+      responses:
+        '200':
+          description: Spot Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpotAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    servers:
+    - url: https://api.big.one/api/v3
+  /viewer/trading_fees:
+    get:
+      tags:
+      - Account
+      summary: Get Trading Fees
+      description: Returns the trading fee rates for the authenticated user. Optionally filter by asset pair names.
+      operationId: getTradingFees
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: asset_pair_names
+        required: false
+        schema:
+          type: string
+        description: Comma-separated list of asset pair names to filter. Returns all fee rates if not specified.
+        example: BTC-USDT,ETH-USDT
+      responses:
+        '200':
+          description: List of trading fees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TradingFee'
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    Cash:
+      type: object
+      description: The wallet balance and margin information for a specific currency.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique wallet identifier.
+          example: 5aed7b45-5d19-40f2-0005-ca49d01f33e3
+        readableId:
+          type: integer
+          format: int64
+          description: A human-readable wallet ID.
+          example: 1000000
+        userId:
+          type: string
+          format: uuid
+          description: The user ID who owns this wallet.
+          example: 5aec525e-335d-4724-0005-20153b361f89
+        currency:
+          type: string
+          description: The asset currency (e.g., BTC, USDT).
+          example: BTC
+        balances:
+          type: number
+          description: The total wallet balance (deposited amount).
+          example: 0.1
+        available:
+          type: number
+          description: The available balance for trading or withdrawal.
+          example: 0.08
+        margin:
+          type: number
+          description: The total margin currently in use (position margin).
+          example: 0.02
+        positionMargin:
+          type: number
+          description: The margin allocated to open positions plus unrealized PnL.
+          example: 0.015
+        orderMargin:
+          type: number
+          description: The margin frozen for open orders.
+          example: 0.005
+        positionValue:
+          type: number
+          description: The total value of all open positions in this currency.
+          example: 0.2
+        unrealizedPnl:
+          type: number
+          description: The total unrealized profit and loss from open positions.
+          example: 0.005
+        marginBalances:
+          type: number
+          description: The margin balance (equity) = balances + unrealizedPnl.
+          example: 0.105
+        marginRate:
+          type: number
+          description: The margin rate for the account.
+          example: 0.15
+        leverage:
+          type: number
+          description: The account-level effective leverage.
+          example: 2.1
+    Account:
+      type: object
+      properties:
+        cash:
+          $ref: '#/components/schemas/Cash'
+        positions:
+          type: array
+          description: List of Active Positions
+          items:
+            $ref: '#/components/schemas/Position'
+    Position:
+      type: object
+      description: An open contract position with its details including size, PnL, and margin information.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique position identifier.
+          example: 5aec8f3f-9846-41af-0005-1b306eeb533a
+        symbol:
+          type: string
+          description: The contract instrument symbol (e.g., BTCUSD, BTCUSDT).
+          example: BTCUSD
+        userId:
+          type: string
+          description: The user ID who owns this position.
+          example: 5aec525e-335d-4724-0005-20153b361f89
+        currency:
+          type: string
+          description: The margin currency for this position (e.g., USDT, BTC).
+          example: BTC
+        isCross:
+          type: boolean
+          description: Whether the position uses Cross Margin mode. true = cross margin, false = isolated margin.
+          example: true
+        marginRate:
+          type: number
+          description: The current margin rate.
+          example: 0.01
+        feeRateTaker:
+          type: number
+          description: The taker fee rate for this position.
+          example: 0.0007
+        feeRateMaker:
+          type: number
+          description: The maker fee rate for this position (negative values indicate rebates).
+          example: -0.0002
+        size:
+          type: number
+          description: The position size in contracts. Positive = long position, Negative = short position.
+          example: 0
+        notional:
+          type: number
+          description: The position notional value in the settlement currency.
+          example: 0
+        initMargin:
+          type: number
+          description: The initial margin required to open this position.
+          example: 0
+        margin:
+          type: number
+          description: The current margin allocated to this position.
+          example: 0
+        orderMargin:
+          type: number
+          description: The margin frozen for open orders related to this position.
+          example: 0.0013327626
+        realisedPnl:
+          type: number
+          description: The realized profit and loss from closed trades.
+          example: 0
+        totalPnl:
+          type: number
+          description: The total profit and loss (realized + unrealized).
+          example: 0
+        markPrice:
+          type: number
+          description: The current mark price used for margin calculations.
+          example: 11303.14
+        riskLimit:
+          type: number
+          description: The current risk limit tier for this position.
+          example: 100
+        liquidatePrice:
+          type: number
+          description: The estimated liquidation price. When mark price reaches this level, liquidation will be triggered.
+          example: 0
+        entryPrice:
+          type: number
+          description: The average entry price of the position.
+          example: 0
+        unrealizedPnl:
+          type: number
+          description: The unrealized profit and loss based on mark price.
+          example: 0
+        leverage:
+          type: number
+          description: The effective leverage (notional value / margin).
+          example: 100
+        equity:
+          type: number
+          description: The position equity (margin + unrealized PnL).
+          example: 0
+        value:
+          type: number
+          description: The position value in the settlement currency.
+          example: 0
+        risk:
+          type: number
+          description: The risk value for this position.
+          example: 0
+        rom:
+          type: number
+          description: Return on Margin (percentage).
+          example: 0
+        buyingNotional:
+          type: number
+          description: The total notional value of buy orders in this position.
+          example: 0
+        sellingNotional:
+          type: number
+          description: The total notional value of sell orders in this position.
+          example: -0.116909
+        buyingSize:
+          type: number
+          description: The total size of buy orders in this position.
+          example: 0
+        sellingSize:
+          type: number
+          description: The total size of sell orders in this position.
+          example: -1400
+        seqNo:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The sequence number for order book updates.
+          example: null
+    TradingFee:
+      type: object
+      description: The trading fee rates for a specific trading pair.
+      properties:
+        asset_pair_name:
+          type: string
+          description: The asset pair name.
+          example: BTC-USDT
+        maker_fee_rate:
+          type: string
+          description: The maker fee rate (negative values indicate rebates). e.g., -0.0001 = -0.01% rebate.
+          example: '-0.0001'
+        taker_fee_rate:
+          type: string
+          description: The taker fee rate. e.g., 0.0005 = 0.05% fee.
+          example: '0.0005'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+          example: 10007
+        message:
+          type: string
+          description: Error message
+          example: Parameter error
+    SpotAccount:
+      type: object
+      description: A spot account balance for an asset.
+      properties:
+        asset_symbol:
+          type: string
+          description: The asset symbol.
+          example: BTC
+        balance:
+          type: string
+          description: The available balance for trading.
+          example: '10.034'
+        locked_balance:
+          type: string
+          description: The balance locked in orders or pending operations.
+          example: '0'
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 10013
+            message: Resource not found
+    Forbidden:
+      description: Permission denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 10403
+            message: Permission denied
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 10429
+            message: Too many requests
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 40004
+            message: Unauthorized
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 10005
+            message: Internal error
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- contract_rest.yml
+- spot_rest.yml
+- bigone-contract-openapi.yml
+- bigone-spot-openapi.yml

@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  title: Bigone Ranges API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Ranges across 2 of this provider''s published API definitions: convert_rest.yml, bigone-convert-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/sapi/v1/convert
+tags:
+- name: Ranges
+  description: Trading range limits
+paths:
+  /range:
+    get:
+      tags:
+      - Ranges
+      summary: Convert Range
+      description: Get the minimum and maximum convertible amounts for an asset pair from all available makers.
+      operationId: getConvertRange
+      parameters:
+      - in: query
+        name: from_asset
+        required: true
+        schema:
+          type: string
+        description: The source asset symbol (e.g., USDT).
+        example: USDT
+      - in: query
+        name: to_asset
+        required: true
+        schema:
+          type: string
+        description: The destination asset symbol (e.g., BTC).
+        example: BTC
+      responses:
+        '200':
+          description: Range information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertRange'
+    servers:
+    - url: https://api.big.one/sapi/v1/convert
+components:
+  schemas:
+    ConvertRange:
+      type: object
+      description: The minimum and maximum amounts allowed for a conversion pair.
+      properties:
+        from_asset_max_amount:
+          type: string
+          description: The maximum amount that can be converted from.
+          example: '77654.92'
+        from_asset_min_amount:
+          type: string
+          description: The minimum amount that can be converted from.
+          example: '10.06'
+        to_asset_max_amount:
+          type: string
+          description: The maximum amount that can be received (converted to).
+          example: '0.748828'
+        to_asset_min_amount:
+          type: string
+          description: The minimum amount that will be received (converted to).
+          example: '0.000097'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- convert_rest.yml
+- bigone-convert-openapi.yml

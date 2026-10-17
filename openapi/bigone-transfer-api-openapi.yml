@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: Bigone Transfer API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Transfer across 2 of this provider''s published API definitions: wallet_rest.yml, bigone-wallet-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/v3
+tags:
+- name: Transfer
+  description: Wallet Transfers
+paths:
+  /viewer/transfer:
+    get:
+      tags:
+      - Transfer
+      summary: Get Transfer Info
+      description: Returns transfer information by GUID.
+      operationId: getTransfer
+      security:
+      - bearerAuth:
+        - view account balance information
+      parameters:
+      - in: query
+        name: guid
+        required: true
+        description: The unique identifier of the transfer to retrieve.
+        schema:
+          type: string
+        example: d7d98a2c-982d-4537-9755-2253df649646
+      responses:
+        '200':
+          description: Transfer info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferInfo'
+    post:
+      tags:
+      - Transfer
+      summary: Create Transfer
+      description: 'Creates a new transfer between accounts.
+
+
+        **Master Account Capabilities:**
+
+        * **Internal Transfer**: Move funds between your own Spot, Fund, and Contract wallets.
+
+        * **Sub-Account Transfers**:
+
+        * **Inbound**: Transfer from a Sub-account (Spot/Fund) to the Master account.
+
+        * **Outbound**: Transfer from the Master account to a Sub-account (Spot/Fund).
+
+        * **Sub-Account Internal**: Initiate transfers between a Sub-account''s own wallets (e.g., Spot to Contract).
+
+
+        **Sub-Account Capabilities:**
+
+        * **Internal Transfer**: Move funds between your own Spot, Fund, and Contract wallets.'
+      operationId: createTransfer
+      security:
+      - bearerAuth:
+        - view account balance information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransferBody'
+      responses:
+        '200':
+          description: Transfer created successfully. The response body is a standard success structure with an empty `data` field.
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    CreateTransferBody:
+      type: object
+      required:
+      - symbol
+      - amount
+      - guid
+      - from
+      - to
+      properties:
+        symbol:
+          type: string
+          description: The asset symbol (e.g., 'BTC', 'USDT').
+          example: USDT
+        amount:
+          type: string
+          description: The amount to transfer.
+          example: '100.50'
+        guid:
+          type: string
+          description: A unique identifier for the transfer request, limited to 36 characters.
+          example: d7d98a2c-982d-4537-9755-2253df649646
+        from:
+          type: string
+          description: The source account type.
+          enum:
+          - SPOT
+          - FUND
+          - CONTRACT
+          example: SPOT
+        to:
+          type: string
+          description: The destination account type.
+          enum:
+          - SPOT
+          - FUND
+          - CONTRACT
+          example: FUND
+        type:
+          type: string
+          description: The transfer type.
+          enum:
+          - NORMAL
+          - MASTER_TO_SUB
+          - SUB_TO_MASTER
+          - SUB_INTERNAL
+          default: NORMAL
+          example: NORMAL
+        sub_account:
+          type: string
+          description: The sub-account ID, required if type is not NORMAL.
+          example: '123456'
+    TransferInfo:
+      description: Detailed information about a transfer.
+      type: object
+      properties:
+        guid:
+          type: string
+          description: The unique identifier provided during the transfer creation.
+          example: d7d98a2c-982d-4537-9755-2253df649646
+        symbol:
+          type: string
+          description: The asset symbol.
+          example: USDT
+        amount:
+          type: string
+          description: The transferred amount.
+          example: '100.50'
+        state:
+          type: string
+          description: The current state of the transfer.
+          enum:
+          - PENDING
+          - SUCCEED
+          - FAILED
+          example: SUCCEED
+        created_at:
+          type: string
+          description: The timestamp when the transfer was created (ISO 8601).
+          example: '2021-01-01T12:00:00Z'
+        updated_at:
+          type: string
+          description: The timestamp when the transfer was last updated (ISO 8601).
+          example: '2021-01-01T12:00:05Z'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- wallet_rest.yml
+- bigone-wallet-openapi.yml

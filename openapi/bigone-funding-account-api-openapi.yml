@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  title: Bigone Funding Account API
+  version: 1.0.0
+  contact:
+    email: developer@big.one
+  description: 'Operations tagged Funding Account across 2 of this provider''s published API definitions: wallet_rest.yml, bigone-wallet-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/v3
+tags:
+- name: Funding Account
+  description: Funding Account Balances
+paths:
+  /viewer/fund/accounts:
+    get:
+      tags:
+      - Funding Account
+      summary: Get All Funding Accounts
+      description: Returns all funding accounts for the user.
+      operationId: getFundingAccounts
+      security:
+      - bearerAuth:
+        - view account balance information
+      responses:
+        '200':
+          description: List of funding accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpotAccount'
+    servers:
+    - url: https://api.big.one/api/v3
+  /viewer/fund/accounts/{asset_symbol}:
+    get:
+      tags:
+      - Funding Account
+      summary: Get Funding Account by Symbol
+      description: Returns a specific funding account.
+      operationId: getFundingAccountBySymbol
+      security:
+      - bearerAuth:
+        - view account balance information
+      parameters:
+      - in: path
+        name: asset_symbol
+        required: true
+        schema:
+          type: string
+        example: BTC
+      responses:
+        '200':
+          description: Funding Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpotAccount'
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    SpotAccount:
+      type: object
+      properties:
+        asset_symbol:
+          type: string
+          example: BTC
+        balance:
+          type: string
+          example: '10.034'
+        locked_balance:
+          type: string
+          example: '0'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- wallet_rest.yml
+- bigone-wallet-openapi.yml

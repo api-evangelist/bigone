@@ -89,21 +89,36 @@ common:
 - type: YouTube
   url: https://www.youtube.com/@BigONEExchange
 apis:
-- aid: bigone:bigone-spot-api
-  name: BigONE Spot API
-  description: Spot trading REST API - asset pairs, tickers, order book depth, trades, candles, account balances, order placement and cancellation, user trades and trading fees.
+- aid: bigone:bigone-websocket-api
+  name: BigONE WebSocket API
+  description: >-
+    Real-time spot market data and private order/account streams at wss://api.big.one/ws/v2 (JSON or protobuf
+    messages, defined in the published websocket.proto), plus contract streams at wss://api.big.one/ws/contract/v2.
+  humanURL: https://open.big.one/docs/guides/websocket/spot
+  baseURL: https://api.big.one/ws/v2
+  tags:
+  - WebSocket
+  - Streaming
+  - Market Data
+  properties:
+  - type: Protobuf
+    url: grpc/bigone-websocket.proto
+  - type: Documentation
+    url: https://open.big.one/docs/guides/websocket/spot
+  - type: Documentation
+    url: https://open.big.one/docs/guides/websocket/contract
+  image: https://b.peatio.com/logos/favicon.ico
+  x-websocket-url: wss://api.big.one/ws/v2
+- aid: bigone:bigone-account-api
+  name: BigONE Account API
+  description: Account Balance
   humanURL: https://open.big.one/docs/spot/introduction
   baseURL: https://api.big.one/api/v3
   tags:
-  - Spot Trading
-  - Market Data
-  - Orders
+  - Account
   properties:
   - type: OpenAPI
-    url: openapi/bigone-spot-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/spot_rest.yml
+    url: openapi/bigone-account-api-openapi.yml
   - type: Documentation
     url: https://open.big.one/docs/spot/introduction
   - type: ChangeLog
@@ -120,22 +135,6 @@ apis:
     url: json-schema/bigone-ticker-schema.json
   - type: JSONSchema
     url: json-schema/bigone-candle-schema.json
-  image: https://b.peatio.com/logos/favicon.ico
-- aid: bigone:bigone-wallet-api
-  name: BigONE Wallet API
-  description: Wallet and asset management REST API - assets, funding accounts, transfers between accounts, deposits, deposit addresses and withdrawals.
-  humanURL: https://open.big.one/docs/wallet/introduction
-  baseURL: https://api.big.one/api/v3
-  tags:
-  - Wallets
-  - Deposits
-  - Withdrawals
-  properties:
-  - type: OpenAPI
-    url: openapi/bigone-wallet-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/wallet_rest.yml
   - type: Documentation
     url: https://open.big.one/docs/wallet/introduction
   - type: JSONSchema
@@ -150,21 +149,6 @@ apis:
     url: json-schema/bigone-create-transfer-body-schema.json
   - type: JSONSchema
     url: json-schema/bigone-transfer-info-schema.json
-  image: https://b.peatio.com/logos/favicon.ico
-- aid: bigone:bigone-convert-api
-  name: BigONE Convert API
-  description: Instant asset conversion (flash swap) REST API - convertible assets, ranges, quotes and convert trades.
-  humanURL: https://open.big.one/docs/convert/introduction
-  baseURL: https://api.big.one/sapi/v1/convert
-  tags:
-  - Convert
-  - Swap
-  properties:
-  - type: OpenAPI
-    url: openapi/bigone-convert-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/convert_rest.yml
   - type: Documentation
     url: https://open.big.one/docs/convert/introduction
   - type: ChangeLog
@@ -179,30 +163,12 @@ apis:
     url: json-schema/bigone-create-trade-request-schema.json
   - type: JSONSchema
     url: json-schema/bigone-convert-asset-schema.json
-  image: https://b.peatio.com/logos/favicon.ico
-- aid: bigone:bigone-contract-api
-  name: BigONE Contract API
-  description: Contract and derivatives trading REST API - instruments, order book snapshots, accounts, positions (margin and risk limit), orders and trades.
-  humanURL: https://open.big.one/docs/contract/introduction
-  baseURL: https://api.big.one/api/contract/v2
-  tags:
-  - Derivatives
-  - Futures
-  - Contract Trading
-  properties:
-  - type: OpenAPI
-    url: openapi/bigone-contract-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/contract_rest.yml
   - type: Documentation
     url: https://open.big.one/docs/contract/introduction
   - type: ChangeLog
     url: https://open.big.one/docs/contract/changelog
   - type: JSONSchema
     url: json-schema/bigone-position-schema.json
-  - type: JSONSchema
-    url: json-schema/bigone-order-schema.json
   - type: JSONSchema
     url: json-schema/bigone-trade-schema.json
   - type: JSONSchema
@@ -211,39 +177,958 @@ apis:
     url: json-schema/bigone-place-order-request-schema.json
   - type: JSONSchema
     url: json-schema/bigone-account-schema.json
-  image: https://b.peatio.com/logos/favicon.ico
-- aid: bigone:bigone-server-api
-  name: BigONE Server API
-  description: Server information endpoint (ping / server time) for the Spot API.
-  humanURL: https://open.big.one/docs/general-info
+- aid: bigone:bigone-asset-api
+  name: BigONE Asset API
+  description: Wallet Assets
+  humanURL: https://open.big.one/docs/spot/introduction
   baseURL: https://api.big.one/api/v3
   tags:
-  - Server
+  - Asset
   properties:
   - type: OpenAPI
-    url: openapi/bigone-server-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/bigone-eng/openapi-specs/main/spot_server.yml
-  image: https://b.peatio.com/logos/favicon.ico
-- aid: bigone:bigone-websocket-api
-  name: BigONE WebSocket API
-  description: Real-time spot market data and private order/account streams at wss://api.big.one/ws/v2 (JSON or protobuf messages, defined in the published websocket.proto), plus contract streams at wss://api.big.one/ws/contract/v2.
-  humanURL: https://open.big.one/docs/guides/websocket/spot
-  baseURL: https://api.big.one/ws/v2
+    url: openapi/bigone-asset-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-assets-api
+  name: BigONE Assets API
+  description: Asset information
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
   tags:
-  - WebSocket
-  - Streaming
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-assets-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-deposit-api
+  name: BigONE Deposit API
+  description: Wallet Deposits
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Deposit
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-deposit-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-funding-account-api
+  name: BigONE Funding Account API
+  description: Funding Account Balances
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Funding Account
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-funding-account-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-market-data-api
+  name: BigONE Market Data API
+  description: Public Market Data
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
   - Market Data
   properties:
-  - type: Protobuf
-    url: grpc/bigone-websocket.proto
+  - type: OpenAPI
+    url: openapi/bigone-market-data-api-openapi.yml
   - type: Documentation
-    url: https://open.big.one/docs/guides/websocket/spot
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
   - type: Documentation
-    url: https://open.big.one/docs/guides/websocket/contract
-  image: https://b.peatio.com/logos/favicon.ico
-  x-websocket-url: wss://api.big.one/ws/v2
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-order-api
+  name: BigONE Order API
+  description: Order Management
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Order
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-order-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-ping-api
+  name: BigONE Ping API
+  description: The Ping API from BigONE — 1 operation(s) for ping.
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Ping
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-ping-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-position-api
+  name: BigONE Position API
+  description: Position Management
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Position
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-position-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-quote-api
+  name: BigONE Quote API
+  description: Get quotes for conversion
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Quote
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-quote-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-ranges-api
+  name: BigONE Ranges API
+  description: Trading range limits
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Ranges
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-ranges-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-trade-api
+  name: BigONE Trade API
+  description: Trade History
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Trade
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-trade-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-trades-api
+  name: BigONE Trades API
+  description: Execute and manage trades
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Trades
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-trades-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-transfer-api
+  name: BigONE Transfer API
+  description: Wallet Transfers
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Transfer
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-transfer-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
+- aid: bigone:bigone-withdrawal-api
+  name: BigONE Withdrawal API
+  description: Wallet Withdrawals
+  humanURL: https://open.big.one/docs/spot/introduction
+  baseURL: https://api.big.one/api/v3
+  tags:
+  - Withdrawal
+  properties:
+  - type: OpenAPI
+    url: openapi/bigone-withdrawal-api-openapi.yml
+  - type: Documentation
+    url: https://open.big.one/docs/spot/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/spot/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-order-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-user-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-order-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-pair-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-ticker-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-candle-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/wallet/introduction
+  - type: JSONSchema
+    url: json-schema/bigone-withdrawal-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-deposit-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-withdrawal-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-asset-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-transfer-body-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-transfer-info-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/convert/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/convert/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-convert-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-range-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-create-trade-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-convert-asset-schema.json
+  - type: Documentation
+    url: https://open.big.one/docs/contract/introduction
+  - type: ChangeLog
+    url: https://open.big.one/docs/contract/changelog
+  - type: JSONSchema
+    url: json-schema/bigone-position-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-instrument-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-place-order-request-schema.json
+  - type: JSONSchema
+    url: json-schema/bigone-account-schema.json
 x-enrichment:
   date: '2026-10-13'
   status: enriched

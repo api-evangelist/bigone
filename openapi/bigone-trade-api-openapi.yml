@@ -1,0 +1,362 @@
+openapi: 3.2.0
+info:
+  title: Bigone Trade API
+  contact:
+    email: developer@big.one
+  version: '1.0'
+  description: 'Operations tagged Trade across 4 of this provider''s published API definitions: contract_rest.yml, spot_rest.yml, bigone-contract-openapi.yml, bigone-spot-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.big.one/api/contract/v2
+- url: https://api.big.one/api/v3
+tags:
+- name: Trade
+  description: Trade History
+paths:
+  /trades:
+    get:
+      tags:
+      - Trade
+      summary: Get Trade List
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: symbol
+        in: query
+        schema:
+          type: string
+          example: BTCUSD
+        description: Contract Symbol (e.g. BTCUSD)
+      - name: id
+        in: query
+        schema:
+          type: string
+          example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+        description: Pagination offset ID. Returns trades older than this ID.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 100
+          example: 20
+        description: Page size limit
+      - name: side
+        in: query
+        schema:
+          type: string
+          enum:
+          - BUY
+          - SELL
+          - FUNDING
+          - ADL_BUY
+          - ADL_SELL
+          - TRADING
+          example: BUY
+        description: Trade Side
+      - name: order-id
+        in: query
+        schema:
+          type: string
+          example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+        description: Order ID. Filter by order.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade'
+              example:
+              - fee: 6.200177148e-05
+                symbol: BTCUSD
+                feeRate: 0.0007
+                size: 1000
+                ts: 1562244089804
+                notional: 0.08857395925
+                orderId: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+                id: 5aef4041-f300-0000-0001-00000000001b
+                side: SELL
+                order:
+                  id: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+                  type: LIMIT
+                  size: 1000
+                  price: 11290
+                price: 11290
+      operationId: getTrades
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.big.one/api/contract/v2
+  /trades/count:
+    get:
+      tags:
+      - Trade
+      summary: Get Count of Trades
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: symbol
+        in: query
+        schema:
+          type: string
+          example: BTCUSD
+        description: Contract Symbol (e.g. BTCUSD)
+      - name: id
+        in: query
+        schema:
+          type: string
+          example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+        description: Pagination offset ID. Returns trades older than this ID.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 100
+          example: 20
+        description: Response size limit
+      - name: side
+        in: query
+        schema:
+          type: string
+          enum:
+          - BUY
+          - SELL
+          - FUNDING
+          - ADL_BUY
+          - ADL_SELL
+          - TRADING
+          example: BUY
+        description: Trade Side
+      - name: order-id
+        in: query
+        schema:
+          type: string
+          example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+        description: Order ID. Filter by order.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Count of trades
+                example:
+                  count: 3
+      operationId: getTradesCount
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.big.one/api/contract/v2
+  /viewer/trades:
+    get:
+      tags:
+      - Trade
+      summary: Get User Trades
+      description: Returns paginated user trade history for a specific asset pair.
+      operationId: getUserTrades
+      security:
+      - bearerAuth: []
+      parameters:
+      - in: query
+        name: asset_pair_name
+        required: true
+        schema:
+          type: string
+        description: The asset pair name.
+        example: BTC-USDT
+      - in: query
+        name: page_token
+        required: false
+        schema:
+          type: string
+        description: Pagination token from the previous response.
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 200
+        description: The maximum number of trades to return.
+      responses:
+        '200':
+          description: List of user trades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserTrade'
+    servers:
+    - url: https://api.big.one/api/v3
+components:
+  schemas:
+    Trade:
+      type: object
+      description: A contract trade execution record with details about the trade, fees, and PnL.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique trade identifier.
+          example: 5aef4041-f300-0000-0001-00000000001b
+        orderId:
+          type: string
+          format: uuid
+          description: The order ID that was filled by this trade.
+          example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+        ts:
+          type: integer
+          format: int64
+          description: The trade timestamp (Unix microseconds).
+          example: 1562244089804
+        side:
+          type: string
+          enum:
+          - BUY
+          - SELL
+          description: The trade side. BUY = long position filled, SELL = short position filled.
+          example: SELL
+        symbol:
+          type: string
+          description: The contract symbol.
+          example: BTCUSD
+        currency:
+          type: string
+          description: The currency used for settlement of fees and PnL.
+          example: BTC
+        size:
+          type: number
+          description: The number of contracts filled in this trade.
+          example: 1000
+        notional:
+          type: number
+          description: The trade notional value in the quote currency.
+          example: 0.08857395925
+        price:
+          type: number
+          description: The execution price of the trade.
+          example: 11290
+        feeRate:
+          type: number
+          description: The fee rate applied to this trade.
+          example: 0.0007
+        pnl:
+          type: number
+          description: The realized PnL from this trade (0 for taker trades).
+          example: 0
+        fee:
+          type: number
+          description: The trading fee charged for this trade.
+          example: 6.200177148e-05
+        order:
+          type: object
+          description: The associated order that was filled.
+          properties:
+            id:
+              type: string
+              description: The order ID.
+              example: 5aef4041-ee43-4a60-0005-705a0f1edcb4
+            type:
+              type: string
+              enum:
+              - LIMIT
+              - MARKET
+              - IOC
+              - FOK
+              - POST_ONLY
+              - ADL
+              description: The order type.
+              example: LIMIT
+            size:
+              type: number
+              description: The order size.
+              example: 1000
+            price:
+              type: number
+              description: The order price.
+              example: 11290
+    UserTrade:
+      type: object
+      description: A trade execution record from the user's perspective.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The unique trade ID.
+          example: 38199941
+        asset_pair_name:
+          type: string
+          description: The asset pair name.
+          example: BTC-USDT
+        price:
+          type: string
+          description: The execution price.
+          example: '50000.00'
+        amount:
+          type: string
+          description: The traded amount (base asset quantity).
+          example: '0.5'
+        taker_side:
+          type: string
+          description: The side of the taker (the order that matched). ASK = taker sold, BID = taker bought.
+          enum:
+          - ASK
+          - BID
+          example: ASK
+        side:
+          type: string
+          description: The side from the maker's perspective. SELF_TRADING indicates both sides of the trade were from the same user.
+          enum:
+          - ASK
+          - BID
+          - SELF_TRADING
+          example: ASK
+        maker_order_id:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The order ID of the maker (the liquidity provider). Null if the maker order was not found.
+          example: 12345670
+        taker_order_id:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The order ID of the taker (the liquidity taker).
+          example: 12345671
+        maker_fee:
+          type:
+          - string
+          - 'null'
+          description: The fee paid by the maker (negative values indicate rebates). Null if the user was the taker.
+          example: '-0.00005'
+        taker_fee:
+          type:
+          - string
+          - 'null'
+          description: The fee paid by the taker. Null if the user was the maker.
+          example: '0.00015'
+        inserted_at:
+          type: string
+          description: The timestamp when the trade was recorded (RFC3339 with millisecond precision).
+          example: '2024-01-15T10:32:00.123Z'
+        created_at:
+          type: string
+          description: Alias for inserted_at (same value).
+          example: '2024-01-15T10:32:00.123Z'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- contract_rest.yml
+- spot_rest.yml
+- bigone-contract-openapi.yml
+- bigone-spot-openapi.yml
