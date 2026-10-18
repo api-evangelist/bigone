@@ -13,6 +13,14 @@ modified: '2026-10-13'
 tags:
 - Company
 - Cryptocurrency
+- Exchange
+- Trading
+- Derivatives
+- Wallets
+- Market Data
+tags_raw:
+- Company
+- Cryptocurrency
 - Exchanges
 - Trading
 - Derivatives
@@ -727,6 +735,8 @@ apis:
   humanURL: https://open.big.one/docs/spot/introduction
   baseURL: https://api.big.one/api/v3
   tags:
+  - Quotes
+  tags_raw:
   - Quote
   properties:
   - type: OpenAPI
@@ -931,6 +941,8 @@ apis:
   humanURL: https://open.big.one/docs/spot/introduction
   baseURL: https://api.big.one/api/v3
   tags:
+  - Trade
+  tags_raw:
   - Trades
   properties:
   - type: OpenAPI
